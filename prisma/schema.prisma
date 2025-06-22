@@ -10,6 +10,20 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+//Modelo para la tabla de DB
+model User {
+  id        String  @id @default(cuid())
+  name      String
+  last_name String
+  email     String  @unique
+  password  String
+  active    Boolean @default(true)
+
+  //Timestamps
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
 }
