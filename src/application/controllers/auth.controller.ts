@@ -1,12 +1,9 @@
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { AuthUseCase } from '../../application/use-cases/auth.use-case';
-import { PrismaClient } from 'generated/prisma';
-
-const prisma = new PrismaClient();
 
 @Controller('auth')
 export class AuthController {
-  private authUseCase = new AuthUseCase();
+  constructor(private readonly authUseCase: AuthUseCase) {}
 
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {

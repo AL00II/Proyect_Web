@@ -1,9 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../../infrastructure/database/user.repository';
 import * as bcrypt from 'bcrypt';
 
+@Injectable()
 export class AuthUseCase {
-  private userRepository = new UserRepository();
-
+  constructor(private readonly userRepository: UserRepository) {}
   async execute(email: string, password: string) {
     const user = await this.userRepository.findByEmail(email);
 
