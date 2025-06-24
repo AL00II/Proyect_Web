@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from '../../infrastructure/database/user.repository';
 import { RegistrationUserDto } from '../dto/registration-user.dto';
+import { UserType } from 'src/domain/types/user.type';
 
 @Injectable()
 export class RegisterUseCase {
@@ -9,18 +10,17 @@ export class RegisterUseCase {
 
   async execute(registrationUserDto: RegistrationUserDto) {
     const existingUser = await this.userRepository.findByEmail(registrationUserDto.email);
-    if (existingUser) {
-      throw new Error('Este correo electrónico ya está registrado.');
-    }
+    if (existingUser) throw new Error('Usuario ya registrado');
 
     const passwordHash = await bcrypt.hash(registrationUserDto.password, 10);
 
-    const user = await this.userRepository.create({
+    const userToSave: UserType = {
       ...registrationUserDto,
       password: passwordHash,
-    });
+    };
 
-    const { password, ...result } = user;
-    return result; 
+    const user = await this.userRepository.create(userToSave);
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   }
 }
