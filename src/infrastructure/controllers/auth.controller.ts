@@ -1,9 +1,11 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException, UseGuards } from '@nestjs/common';
 import { AuthUseCase } from '../../application/use-cases/auth.use-case';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authUseCase: AuthUseCase) {}
+
+@UseGuards()
 
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {
