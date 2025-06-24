@@ -3,10 +3,16 @@ import * as bcrypt from 'bcrypt';
 import { UserRepository } from '../../infrastructure/database/user.repository';
 import { RegistrationUserDto } from '../dto/registration-user.dto';
 import { UserType } from 'src/domain/types/user.type';
+import { JwtTokenService } from 'src/infrastructure/services/jwt-token.service';
+import { access } from 'fs';
+
 
 @Injectable()
 export class RegisterUseCase {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository,
+              private readonly tokenService: JwtTokenService
+
+  ) {}
 
   async execute(registrationUserDto: RegistrationUserDto) {
     const existingUser = await this.userRepository.findByEmail(registrationUserDto.email);
@@ -20,7 +26,14 @@ export class RegisterUseCase {
     };
 
     const user = await this.userRepository.create(userToSave);
+    const token = this.tokenService.generate({ 
+       sub:user.id, 
+       email: user.email
+
+    })
     const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    return {
+          access_token: token
+    };
   }
 }
