@@ -2,6 +2,7 @@ import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { AuthUseCase } from '../../application/use-cases/auth.use-case';
 import { RegistrationUserDto } from 'src/application/dto/registration-user.dto';
 import { RegisterUseCase } from 'src/application/use-cases/register.use-case';
+import { Public } from '../decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -10,6 +11,7 @@ export class AuthController {
     private readonly registerUseCase: RegisterUseCase,
   ) {}
 
+  @Public()
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {
     try {
@@ -20,6 +22,7 @@ export class AuthController {
     }
   }
 
+  @Public()
   @Post('register')
   async register(@Body() createUserDto: RegistrationUserDto) {
     try {
