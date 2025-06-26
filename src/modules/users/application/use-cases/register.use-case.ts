@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { UserRepository } from '../../infrastructure/database/user.repository';
+import { UserRepository } from '../../infraestructure/repositories/user.repository';
 import { RegistrationUserDto } from '../dto/registration-user.dto';
-import { UserType } from 'src/domain/types/user.type';
-import { JwtTokenService } from 'src/infrastructure/services/jwt-token.service';
+import { UserType } from 'src/modules/users/domain/types/user.type';
+import { JwtTokenService } from 'src/modules/auth/infrastructure/services/jwt-token.service';
 import { access } from 'fs';
 
 

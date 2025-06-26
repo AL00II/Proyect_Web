@@ -1,8 +1,8 @@
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { AuthUseCase } from '../../application/use-cases/auth.use-case';
-import { RegistrationUserDto } from 'src/application/dto/registration-user.dto';
-import { RegisterUseCase } from 'src/application/use-cases/register.use-case';
-import { Public } from '../decorators/public.decorator';
+import { RegistrationUserDto } from 'src/modules/users/application/dto/registration-user.dto';
+import { RegisterUseCase } from 'src/modules/users/application/use-cases/register.use-case';
+import { Public } from '../../../../core/decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
