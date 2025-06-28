@@ -27,3 +27,4 @@ export class RegisterUseCase {
     return await this.userRepository.create(user);
   }
 }
+
