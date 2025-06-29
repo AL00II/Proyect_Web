@@ -25,4 +25,6 @@ export class UserMapper {
       updatedAt: new Date(),
     };
   }
+
+
 }

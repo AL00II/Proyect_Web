@@ -25,4 +25,9 @@ export class UserRepository implements IUserRepository {
 
     return UserMapper.toEntity(created);
   }
+
+  async findById(id: string): Promise<User | null> {
+    const record = await this.prisma.user.findUnique({ where: { id } });
+    return record ? UserMapper.toEntity(record) : null;
+  }
 }
