@@ -22,7 +22,6 @@ export class AuthUseCase {
       throw new Error('Contraseña incorrecta');
     }
 
-
     const { password: _, ...userWithoutPassword } = user;
     return user;
     
