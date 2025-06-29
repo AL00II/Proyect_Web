@@ -1,12 +1,12 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserRepository } from '../../../users/infraestructure/repositories/user.repository';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtTokenService } from 'src/modules/auth/infrastructure/services/jwt-token.service';
+import { IUserRepository } from 'src/modules/users/domain/interfaces/user-repository.interface';
 
 @Injectable()
 export class AuthUseCase {
-  constructor(private readonly userRepository: UserRepository,
-    private readonly tokenService: JwtTokenService
+  constructor(
+   @Inject(IUserRepository) private readonly userRepository: IUserRepository,
   ) {}
 
   async execute(email: string, password: string) {
@@ -22,16 +22,9 @@ export class AuthUseCase {
       throw new Error('Contraseña incorrecta');
     }
 
-    const token = this.tokenService.generate({ 
-       sub:user.id, 
-       email: user.email
-
-    })
 
     const { password: _, ...userWithoutPassword } = user;
-    return {
-          access_token: token
-    };
+    return user;
     
   }
   
