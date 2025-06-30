@@ -5,8 +5,6 @@ import { UserMapper } from '../mappers/user-mapper';
 import { PrismaService } from 'src/core/database/prisma.service';
 
 @Injectable()
-
-
 export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -29,5 +27,21 @@ export class UserRepository implements IUserRepository {
   async findById(id: string): Promise<User | null> {
     const record = await this.prisma.user.findUnique({ where: { id } });
     return record ? UserMapper.toEntity(record) : null;
+  }
+
+  async update(id: string, data: Partial<User>): Promise<User> {
+    const updatedUser = await this.prisma.user.update({
+      where: { id },
+      data,
+    });
+
+    return new User(
+      updatedUser.name,
+      updatedUser.last_name,
+      updatedUser.email,
+      updatedUser.password,
+      updatedUser.active,
+      updatedUser.id,
+    );
   }
 }
