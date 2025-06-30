@@ -4,21 +4,20 @@ import { AuthController } from 'src/modules/auth/infrastructure/controllers/auth
 import { RegisterUseCase } from 'src/modules/users/application/use-cases/register.use-case';
 import { IUserRepository } from './domain/interfaces/user-repository.interface';
 import { PrismaService } from 'src/core/database/prisma.service';
-import { AuthUseCase } from '../auth/application/use-cases/auth.use-case';
-
-
+import { UpdateUserUseCase } from './application/use-cases/update-use-case';
+import { UsersController } from '../auth/infrastructure/controllers/users.controller';
 
 @Module({
-  controllers: [],
+  controllers: [UsersController],
   providers: [
     PrismaService,
-    RegisterUseCase, 
+    RegisterUseCase,
+    UpdateUserUseCase,
     {
       provide: IUserRepository,
       useClass: UserRepository,
     },
-   
   ],
-  exports: [IUserRepository, RegisterUseCase]
+  exports: [IUserRepository, RegisterUseCase, UpdateUserUseCase],
 })
 export class UsersModule {}
