@@ -30,4 +30,11 @@ export class UserRepository implements IUserRepository {
     const record = await this.prisma.user.findUnique({ where: { id } });
     return record ? UserMapper.toEntity(record) : null;
   }
+
+  async delete(id: string): Promise<void> {
+    await this.prisma.user.delete({
+      where: { id },
+    });
+  }
+
 }

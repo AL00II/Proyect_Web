@@ -1,10 +1,15 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import {Controller,Get,Req,UseGuards,Delete,Param,HttpCode,HttpStatus,} from '@nestjs/common';
 import { GetUserProfileUseCase } from 'src/modules/users/application/use-cases/get-user-profile.use-case';
 import { Request } from 'express';
+import { JwtAuthGuard } from 'src/modules/auth/infrastructure/guards/jwt-auth.guard';
+import { DeleteUserUseCase } from '../../application/use-cases/delete.use-case';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly getUserProfileUseCase: GetUserProfileUseCase) {}
+  constructor(
+    private readonly getUserProfileUseCase: GetUserProfileUseCase,
+    private readonly deleteUserUseCase: DeleteUserUseCase,
+  ) {}
 
   @Get('me')
   async getProfile(@Req() req: Request) {
@@ -18,5 +23,12 @@ export class UserController {
       email: user.email,
       active: user.active,
     };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteUser(@Param('id') id: string): Promise<void> {
+    await this.deleteUserUseCase.execute(id);
   }
 }
