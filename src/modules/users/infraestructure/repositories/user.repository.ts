@@ -3,7 +3,6 @@ import { IUserRepository } from '../../domain/interfaces/user-repository.interfa
 import { User } from '../../domain/entities/user.entity';
 import { UserMapper } from '../mappers/user-mapper';
 import { PrismaService } from 'src/core/database/prisma.service';
-import { UserResponseDto } from '../../application/dto/user-response.dto';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -29,18 +28,20 @@ export class UserRepository implements IUserRepository {
     const record = await this.prisma.user.findUnique({ where: { id } });
     return record ? UserMapper.toEntity(record) : null;
   }
-  async update(id: string, data: Partial<User>): Promise<UserResponseDto> {
+
+  async update(id: string, data: Partial<User>): Promise<User> {
     const updatedUser = await this.prisma.user.update({
       where: { id },
       data,
     });
 
-    return new UserResponseDto(
-      updatedUser.id,
+    return new User(
       updatedUser.name,
       updatedUser.last_name,
       updatedUser.email,
+      updatedUser.password,
       updatedUser.active,
+      updatedUser.id,
     );
   }
 }
