@@ -3,8 +3,6 @@ import {Controller,Body,Get,Req,Delete,Param,HttpCode,HttpStatus,Patch} from '@n
 import { GetUserProfileUseCase } from 'src/modules/users/application/use-cases/get-user-profile.use-case';
 import { Request } from 'express';
 import { DeleteUserUseCase } from '../../application/use-cases/delete.use-case';
-import { GetUserProfileUseCase } from 'src/modules/users/application/use-cases/get-user-profile.use-case';
-import { Request } from 'express';
 import { UpdateUserUseCase } from '../../application/use-cases/update-use-case';
 import { UpdateUserDto } from '../../application/dto/update-user.dto';
 import { User } from '../../domain/entities/user.entity';
@@ -35,9 +33,10 @@ export class UserController {
 
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
   async deleteUser(@Param('id') id: string): Promise<void> {
-  await this.deleteUserUseCase.execute(id);
+    await this.deleteUserUseCase.execute(id);
+  
+  }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
