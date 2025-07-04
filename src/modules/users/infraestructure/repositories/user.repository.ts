@@ -29,11 +29,14 @@ export class UserRepository implements IUserRepository {
     return record ? UserMapper.toEntity(record) : null;
   }
 
-
-  async delete(id: string): Promise<void> {
-    await this.prisma.user.delete({
-      where: { id },
-    });
+  //se cambio el metodo anterior para que este devuelva un boolean 
+  async delete(id: string): Promise<boolean> {
+    try {
+      await this.prisma.user.delete({ where: { id } });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   async update(id: string, data: Partial<User>): Promise<User> {
@@ -52,4 +55,3 @@ export class UserRepository implements IUserRepository {
     );
   }
 }
-

@@ -7,11 +7,11 @@ export class DeleteUserUseCase {
     @Inject(IUserRepository)
     private readonly userRepository: IUserRepository,
   ) {}
-
-  async execute(id: string): Promise<void> {
+//se medifico el caso de uso para que no devuelva un void 
+  async execute(id: string): Promise<boolean> {
     const user = await this.userRepository.findById(id);
-    if (!user) throw new Error('Usuario no encontrado');
+    if (!user) return false;
 
-    await this.userRepository.delete(id);
+    return await this.userRepository.delete(id);
   }
 }

@@ -31,12 +31,11 @@ export class UserController {
   }
 
 
-
-  @Delete(':id')
-  async deleteUser(@Param('id') id: string): Promise<void> {
-    await this.deleteUserUseCase.execute(id);
-  
-  }
+//e l metodo dsevuelve el boolean y se ajusta el tipo de retorno
+  async deleteUser(@Param('id') id: string): Promise<{ success: boolean }> {
+  const result = await this.deleteUserUseCase.execute(id);
+  return { success: result };
+}
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
