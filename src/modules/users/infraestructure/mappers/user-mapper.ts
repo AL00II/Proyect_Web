@@ -8,6 +8,7 @@ export class UserMapper {
       prismaUser.last_name,
       prismaUser.email,
       prismaUser.password,
+      prismaUser.role,
       prismaUser.active,
       prismaUser.id,
     );
@@ -20,6 +21,7 @@ export class UserMapper {
       last_name: user.last_name,
       email: user.email,
       password: user.password,
+      role: user.role,
       active: user.active,
       createdAt: new Date(),   
       updatedAt: new Date(),
