@@ -21,10 +21,10 @@ model User {
   last_name String
   email     String  @unique
   password  String
+  role      String  @default("supervisor")
   active    Boolean @default(true)
 
   //Timestamps
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
-

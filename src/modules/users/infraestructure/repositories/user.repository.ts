@@ -45,13 +45,7 @@ export class UserRepository implements IUserRepository {
       data,
     });
 
-    return new User(
-      updatedUser.name,
-      updatedUser.last_name,
-      updatedUser.email,
-      updatedUser.password,
-      updatedUser.active,
-      updatedUser.id,
-    );
+    return UserMapper.toEntity(updatedUser);
+
   }
 }

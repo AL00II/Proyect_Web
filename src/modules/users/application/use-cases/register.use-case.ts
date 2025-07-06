@@ -21,6 +21,7 @@ export class RegisterUseCase {
       data.last_name,
       data.email,
       hashedPassword,
+      data.role,
       data.active,
     );
 

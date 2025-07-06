@@ -5,7 +5,6 @@ import { Request } from 'express';
 import { DeleteUserUseCase } from '../../application/use-cases/delete.use-case';
 import { UpdateUserUseCase } from '../../application/use-cases/update-use-case';
 import { UpdateUserDto } from '../../application/dto/update-user.dto';
-import { User } from '../../domain/entities/user.entity';
 
 
 @Controller('users')
@@ -32,25 +31,16 @@ export class UserController {
 
 
 //e l metodo dsevuelve el boolean y se ajusta el tipo de retorno
-  async deleteUser(@Param('id') id: string): Promise<{ success: boolean }> {
+async deleteUser(@Param('id') id: string): Promise<{ success: boolean }> {
   const result = await this.deleteUserUseCase.execute(id);
   return { success: result };
 }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
-    const user = await this.updateUserUseCase.execute(id, dto);
-    return this.formatUserResponse(user);
+  async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
+    const user = await this.updateUserUseCase.execute(id, data);
+    return user;
   }
 
-  private formatUserResponse(user: User) {
-    return {
-      id: user.id,
-      name: user.name,
-      last_name: user.last_name,
-      email: user.email,
-      active: user.active,
-    };
 
-  }
 }
