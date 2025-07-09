@@ -27,8 +27,6 @@ model User {
 
   employees Employee[]
   rules     Rule[]
-  created_attendance_types AttendanceType[] @relation("created_attendance_types")
-  updated_attendance_types AttendanceType[] @relation("updated_attendance_types")
 }
 
 model Employee {
@@ -45,7 +43,7 @@ model Employee {
   updatedAt   DateTime? @updatedAt @map("updated_at")
 
   rules       Rule[]
-  attendances Attendance[]
+  
 }
 
 model Rule {
@@ -65,25 +63,3 @@ model Rule {
   @@map("rules")
 }
 
-model Attendance {
-  id          String   @id @default(cuid())
-  employee    Employee @relation(fields: [employee_id], references: [id])
-  employee_id String
-  type        AttendanceType @relation(fields: [type_id], references: [id])
-  type_id     String
-  date        DateTime
-  time        DateTime
-}
-
-model AttendanceType {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  created_by  User     @relation(fields: [created_by_id], references: [id], name: "created_attendance_types")
-  created_by_id String
-  updatedAt   DateTime? @updatedAt @map("updated_at")
-  updated_by  User?    @relation(fields: [updated_by_id], references: [id], name: "updated_attendance_types")
-  updated_by_id String?
-
-  attendances Attendance[]
-}
