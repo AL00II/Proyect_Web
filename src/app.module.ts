@@ -5,10 +5,12 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/infrastructure/guards/jwt-auth.guard';
-import { ScheduleModule } from './modules/schedule/schedule.module';
+import { RuleModule } from './rules/api/rule.module';
+import { PrismaModule } from './core/database/prisma.module';
+
 
 @Module({
-  imports: [AuthModule, UsersModule, ScheduleModule],
+  imports: [AuthModule, UsersModule, ScheduleModule, RuleModule],
   controllers: [AppController],
   providers: [
     AppService,
