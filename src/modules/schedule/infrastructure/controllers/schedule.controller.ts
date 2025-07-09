@@ -1,12 +1,9 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { CreateScheduleSetDto } from '../../application/dto/create-schedule-set.dto';
 import { CreateScheduleSetUseCase } from '../../application/use-cases/create-schedule-set.usecase';
-import { JwtAuthGuard } from '../../../auth/infrastructure/guards/jwt-auth.guard';
-import { GetUser } from 'src/modules/auth/infrastructure/decorators/get-user.decorator';
-import { JwtPayload } from '../../../users/domain/types/jwt-payload.type';
 
 @Controller('schedule-sets')
-@UseGuards(JwtAuthGuard)
 export class ScheduleController {
   constructor(
     private readonly createScheduleSetUseCase: CreateScheduleSetUseCase,
@@ -15,8 +12,8 @@ export class ScheduleController {
   @Post()
   async create(
     @Body() data: CreateScheduleSetDto,
-    @GetUser() user: JwtPayload,
+    @Req() req: Request & { user: { sub: string } },
   ) {
-    return this.createScheduleSetUseCase.execute(data, user.sub);
+    return this.createScheduleSetUseCase.execute(data, req.user.sub);
   }
 }
