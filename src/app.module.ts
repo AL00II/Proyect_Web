@@ -8,16 +8,16 @@ import { JwtAuthGuard } from './modules/auth/infrastructure/guards/jwt-auth.guar
 import { RuleModule } from './rules/api/rule.module';
 import { PrismaModule } from './core/database/prisma.module';
 
+
 @Module({
-  imports: [AuthModule, UsersModule, RuleModule, PrismaModule],
+  imports: [AuthModule, UsersModule, ScheduleModule, RuleModule],
   controllers: [AppController],
   providers: [
     AppService,
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard
-    }
-
+      useClass: JwtAuthGuard,
+    },
   ],
 })
 export class AppModule {}

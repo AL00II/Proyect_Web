@@ -25,8 +25,43 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
+
+  //Timestamps
+  createdAt DateTime      @default(now())
+  updatedAt DateTime?     @updatedAt
+  schedules ScheduleSet[] // un usuario puede crear múltiples horarios
   employees Employee[]
   rules     Rule[]
+}
+
+model ScheduleSet {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  is_active   Boolean          @default(true)
+  created_by  String
+  created_at  DateTime         @default(now()) @map("created_at")
+  updated_at  DateTime?        @updatedAt @map("updated_at")
+  updated_by  String?
+  details     ScheduleDetail[]
+  creator     User             @relation(fields: [created_by], references: [id])
+}
+
+model ScheduleDetail {
+  id               String      @id @default(cuid())
+  week_day         Int
+  check_in         DateTime
+  check_out        DateTime
+  lunch_start      DateTime?
+  lunch_end        DateTime?
+  is_active        Boolean     @default(true)
+  created_at       DateTime    @default(now()) @map("created_at")
+  updated_at       DateTime?   @updatedAt @map("updated_at")
+  created_by       String
+  updated_by       String?
+  schedule_set     ScheduleSet @relation(fields: [schedules_set_id], references: [id])
+  schedules_set_id String
+
 }
 
 model Employee {
