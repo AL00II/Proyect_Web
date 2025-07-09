@@ -21,6 +21,7 @@ export class AuthController {
       const token = this.tokenService.generate({
         sub: user.id!,
         email: user.email,
+        role: user.role
       });
   
       return {
@@ -40,6 +41,7 @@ export class AuthController {
       const token = this.tokenService.generate({
         sub: user.id!,
         email: user.email,
+        role: user.role,
       });
   
       return {
