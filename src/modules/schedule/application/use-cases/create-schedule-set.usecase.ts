@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateScheduleSetDto } from '../dto/create-schedule-set.dto';
-import { IScheduleRepository } from '../../domain/interfaces/schedule.depository.interface';
+import { IScheduleRepository } from '../../domain/interfaces/schedule.repository.interface';
 
 @Injectable()
 export class CreateScheduleSetUseCase {
@@ -10,10 +10,7 @@ export class CreateScheduleSetUseCase {
     return this.scheduleRepository.createScheduleSet({
       ...data,
       created_by: createdBy,
-      details: data.details.map((detail) => ({
-        ...detail,
-        created_by: createdBy,
-      })),
+      is_active: data.is_active ?? true,
     });
   }
 }
