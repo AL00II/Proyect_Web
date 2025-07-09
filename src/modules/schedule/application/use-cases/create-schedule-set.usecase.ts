@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateScheduleSetDto } from '../dto/create-schedule-set.dto';
-import { IScheduleRepository } from '../../domain/interfaces/schedule.depository.interface';
+import { IScheduleRepository } from '../../domain/interfaces/schedule.repository.interface';
 
 @Injectable()
 export class CreateScheduleSetUseCase {
