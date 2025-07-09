@@ -1,28 +1,4 @@
-import {
-  IsArray,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
-import { Type } from 'class-transformer';
-
-class ScheduleDetailDto {
-  @IsNotEmpty()
-  week_day: number;
-
-  @IsNotEmpty()
-  check_in: Date;
-
-  @IsNotEmpty()
-  check_out: Date;
-
-  @IsOptional()
-  lunch_start?: Date;
-
-  @IsOptional()
-  lunch_end?: Date;
-}
+import { IsNotEmpty, IsOptional, IsString, IsBoolean } from 'class-validator';
 
 export class CreateScheduleSetDto {
   @IsString()
@@ -33,8 +9,7 @@ export class CreateScheduleSetDto {
   @IsOptional()
   description?: string;
 
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => ScheduleDetailDto)
-  details: ScheduleDetailDto[];
+  @IsBoolean()
+  @IsOptional()
+  is_active?: boolean;
 }
