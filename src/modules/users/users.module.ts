@@ -7,6 +7,8 @@ import { DeleteUserUseCase } from './application/use-cases/delete.use-case';
 import { IUserRepository } from './domain/interfaces/user-repository.interface';
 import { UpdateUserUseCase } from './application/use-cases/update-use-case';
 import { UserRepository } from './infraestructure/repositories/user.repository';
+import { GetAllUsersUseCase } from './application/use-cases/get-all-users.use-case.ts';
+import { GetUserByIdUseCase } from './application/use-cases/get-user-by-id.use-case';
 
 
 @Module({
@@ -17,6 +19,8 @@ import { UserRepository } from './infraestructure/repositories/user.repository';
     GetUserProfileUseCase,
     DeleteUserUseCase,
     UpdateUserUseCase,
+    GetAllUsersUseCase,
+    GetUserByIdUseCase,
     {
        provide: IUserRepository, 
        useClass: UserRepository,
@@ -28,6 +32,8 @@ import { UserRepository } from './infraestructure/repositories/user.repository';
     GetUserProfileUseCase,
     DeleteUserUseCase,
     UpdateUserUseCase,
+    GetAllUsersUseCase,
+    GetUserByIdUseCase,
   ],
 })
 export class UsersModule {}
