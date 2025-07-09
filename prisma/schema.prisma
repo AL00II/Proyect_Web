@@ -14,7 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//Modelo para la tabla de DB
 model User {
   id        String  @id @default(cuid())
   name      String
@@ -23,8 +22,68 @@ model User {
   password  String
   role      String  @default("supervisor")
   active    Boolean @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
-  //Timestamps
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  employees Employee[]
+  rules     Rule[]
+  created_attendance_types AttendanceType[] @relation("created_attendance_types")
+  updated_attendance_types AttendanceType[] @relation("updated_attendance_types")
+}
+
+model Employee {
+  id          String   @id @default(cuid())
+  name        String
+  last_name   String
+  matricula   String   @unique
+  ideal_vector String?
+  full_proto  String?
+  active      Boolean  @default(true)
+  created_by  User     @relation(fields: [created_by_id], references: [id])
+  created_by_id String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+
+  rules       Rule[]
+  attendances Attendance[]
+}
+
+model Rule {
+  id          String   @id @default(cuid())
+  name        String
+  type        String
+  description String?
+  valid       Boolean  @default(true)
+  is_global   Boolean  @default(false) @map("is_global")
+  employee    Employee? @relation(fields: [employee_id], references: [id])
+  employee_id String?
+  created_by  User     @relation(fields: [created_by_id], references: [id])
+  created_by_id String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+
+  @@map("rules")
+}
+
+model Attendance {
+  id          String   @id @default(cuid())
+  employee    Employee @relation(fields: [employee_id], references: [id])
+  employee_id String
+  type        AttendanceType @relation(fields: [type_id], references: [id])
+  type_id     String
+  date        DateTime
+  time        DateTime
+}
+
+model AttendanceType {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  created_by  User     @relation(fields: [created_by_id], references: [id], name: "created_attendance_types")
+  created_by_id String
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+  updated_by  User?    @relation(fields: [updated_by_id], references: [id], name: "updated_attendance_types")
+  updated_by_id String?
+
+  attendances Attendance[]
 }
