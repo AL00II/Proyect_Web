@@ -8,6 +8,8 @@ import { UpdateUserDto } from '../../application/dto/update-user.dto';
 import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.use-case.ts';
 import { UserOutput } from '../../domain/types/user-output.type';
 import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
+import { ChangePasswordDto } from '../../application/dto/change-password.dto';
+import { ChangePasswordUseCase } from '../../application/use-cases/change-password.use-case';
 
 
 @Controller('users')
@@ -16,14 +18,15 @@ export class UserController {
     private readonly getUserProfileUseCase: GetUserProfileUseCase,
     private readonly deleteUserUseCase: DeleteUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
-    private readonly getAllUsers: GetAllUsersUseCase,
-    private readonly getUserById : GetUserByIdUseCase,
+    private readonly getAllUsersUseCase: GetAllUsersUseCase,
+    private readonly getUserByIdUseCase : GetUserByIdUseCase,
+    private readonly changePasswordUseCase : ChangePasswordUseCase,
   ) {}
 
   
   @Get()
   async findAllUsers(@Req() req: Request): Promise<UserOutput[]> {
-    return this.getAllUsers.execute(req.user.role);
+    return this.getAllUsersUseCase.execute(req.user.role);
   }
 
   @Get('me')
@@ -35,7 +38,7 @@ export class UserController {
 
   @Get(':id')
   async findById(@Param('id') id: string, @Req() req: Request): Promise<UserOutput | null> {
-    return this.getUserById.execute(req.user.role, id);
+    return this.getUserByIdUseCase.execute(req.user.role, id);
   }
 
 
@@ -46,6 +49,13 @@ export class UserController {
   const result = await this.deleteUserUseCase.execute(id, req.user.role);
   return { success: result };
 }
+
+  @Patch('change-password')
+  async changePassword(@Req() req:Request,@Body() dto: ChangePasswordDto ) {
+    const userId = req.user.sub;
+    return await this.changePasswordUseCase.execute(userId, dto);
+  }
+
 
 
   @Patch(':id')
