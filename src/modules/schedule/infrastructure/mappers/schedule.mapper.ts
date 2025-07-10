@@ -22,6 +22,8 @@ export class ScheduleMapper {
             detail.lunch_end,
             detail.is_active,
             detail.schedules_set_id,
+            detail.created_by,        
+            detail.updated_by || null  
           ),
       ),
     );

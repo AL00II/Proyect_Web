@@ -5,6 +5,9 @@ import { UpdateScheduleSetUseCase } from './application/use-cases/update-schedul
 import { ScheduleRepository } from './infrastructure/repositories/schedule.repository';
 import { IScheduleRepository } from './domain/interfaces/schedule.repository.interface';
 import { PrismaService } from 'src/core/database/prisma.service';
+import { CreateScheduleDetailUseCase } from './application/use-cases/create-schedule-detail.use-case';
+import { DetailsRepo } from './infrastructure/repositories/schudule-details-repository';
+import { IDScheduleRepository } from './domain/interfaces/schedule-details-interface';
 
 @Module({
   controllers: [ScheduleController],
@@ -15,6 +18,13 @@ import { PrismaService } from 'src/core/database/prisma.service';
     {
       provide: IScheduleRepository,
       useClass: ScheduleRepository,
+    },
+
+    
+    CreateScheduleDetailUseCase,
+    {
+      provide: 'IDScheduleRepository',
+      useClass: DetailsRepo,
     },
   ],
 })

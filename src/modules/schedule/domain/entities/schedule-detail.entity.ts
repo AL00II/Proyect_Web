@@ -8,5 +8,8 @@ export class ScheduleDetail {
     public lunch_end: Date | null,
     public is_active: boolean,
     public schedules_set_id: string,
+    public created_by:string,
+    public updated_by:string | null
+
   ) {}
 }

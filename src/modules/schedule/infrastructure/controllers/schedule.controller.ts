@@ -4,12 +4,15 @@ import { CreateScheduleSetDto } from '../../application/dto/create-schedule-set.
 import { CreateScheduleSetUseCase } from '../../application/use-cases/create-schedule-set.usecase';
 import { UpdateScheduleSetDto } from '../../application/dto/update-schedule-set.dto';
 import { UpdateScheduleSetUseCase } from '../../application/use-cases/update-schedule-set-usecase';
+import { CreateScheduleDetailUseCase } from '../../application/use-cases/create-schedule-detail.use-case';
+import { CreateScheduleDetailDto } from '../../application/dto/create-schedule-detail.dto';
 
 @Controller('schedule-sets')
 export class ScheduleController {
   constructor(
     private readonly createScheduleSetUseCase: CreateScheduleSetUseCase,
     private readonly updateScheduleSetUseCase: UpdateScheduleSetUseCase,
+    private readonly createScheduleDetailUseCase: CreateScheduleDetailUseCase
   ) {}
 
   @Post()
@@ -28,4 +31,20 @@ export class ScheduleController {
   ) {
     return this.updateScheduleSetUseCase.execute(id, data, req.user.sub);
   }
+
+
+  @Post('details') 
+  async createDetail(
+    @Body() dto: CreateScheduleDetailDto,
+    @Req() req: Request & { user: { sub: string } },
+  ) {
+    return this.createScheduleDetailUseCase.execute({
+      ...dto,
+      created_by: req.user.sub,
+    });
+  }
+
+
+
+
 }
