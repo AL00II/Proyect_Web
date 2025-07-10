@@ -1,38 +1,24 @@
-import {
-  Body,
-  Controller,
-  Post,
-  UseGuards,
-  Request,
-  HttpCode,
-  HttpStatus,
-  ForbiddenException,
-} from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { CreateRuleDto } from "src/rules/application/dto/create-rule.dto";
-import { RuleResponseDto } from "src/rules/application/dto/rule-response.dto";
-import { CreateRuleUseCase } from "src/rules/application/use-cases/create-rule.use-case";
+import { Controller, Post, Request, Body, Get, Param } from '@nestjs/common';
+import { CreateRuleDto } from '../../application/dto/create-rule.dto';
+import { CreateRuleUseCase } from '../../application/use-cases/create-rule.use-case';
+import { GetRuleByIdUseCase } from '../../application/use-cases/get-rule-by-id.use-case';
 
-@Controller("rules")
+@Controller('rules')
 export class RuleController {
-  constructor(private readonly createRuleUseCase: CreateRuleUseCase) {}
+  constructor(
+    private readonly createRuleUseCase: CreateRuleUseCase,
+    private readonly getRuleByIdUseCase: GetRuleByIdUseCase,
+  ) {}
 
   @Post()
-  @UseGuards(AuthGuard("jwt"))
-  @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body() createRuleDto: CreateRuleDto,
-    @Request() req
-  ): Promise<RuleResponseDto> {
-    // Validar que el usuario tenga rol de supervisor o admin
-    if (!['admin', 'supervisor'].includes(req.user.role)) {
-      throw new ForbiddenException(
-        'Solo supervisores y administradores pueden crear reglas'
-      );
-    }
+  async create(@Body() createRuleDto: CreateRuleDto, @Request() req) {
+    return this.createRuleUseCase.execute(createRuleDto, {
+      id: req.user.id,
+    });
+  }
 
-    // Convertir el ID a string para coincidir con el esquema Prisma
-    const createdById = req.user.id.toString();
-    return this.createRuleUseCase.execute(createRuleDto, createdById);
+  @Get(':id')
+  async getById(@Param('id') id: string) {
+    return this.getRuleByIdUseCase.execute(id);
   }
 }

@@ -26,8 +26,6 @@ model User {
   updatedAt DateTime? @updatedAt @map("updated_at")
 
 
-  //Timestamps
-
   schedules ScheduleSet[] // un usuario puede crear múltiples horarios
   employees Employee[]
   rules     Rule[]

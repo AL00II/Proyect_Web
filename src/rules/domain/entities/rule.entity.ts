@@ -1,4 +1,16 @@
-import { CreateRuleDto } from "src/rules/application/dto/create-rule.dto";
+export interface EmployeeData {
+  id: string;
+  name: string;
+  last_name: string;
+  matricula: string;
+}
+
+export interface UserData {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
 
 export class Rule {
   constructor(
@@ -8,24 +20,35 @@ export class Rule {
     public readonly description: string | null,
     public readonly valid: boolean,
     public readonly isGlobal: boolean,
-    public readonly employeeId: string | null,  
+    public readonly employeeId: string | null,
     public readonly createdById: string,
     public readonly createdAt: Date,
-    public readonly updatedAt: Date | null
+    public readonly updatedAt: Date | null,
+    public readonly employee: EmployeeData | null,
+    public readonly createdBy: UserData | null,
   ) {}
 
-  static create(createRuleDto: CreateRuleDto, createdById: string): Rule {
-    const now = new Date();
+  static create(props: {
+    name: string;
+    type: string;
+    description?: string;
+    valid?: boolean;
+    isGlobal?: boolean;
+    employeeId?: string;
+    createdById: string;
+  }): Rule {
     return new Rule(
-      '', // ID será generado por Prisma con cuid()
-      createRuleDto.name,
-      createRuleDto.type,
-      createRuleDto.description || null,
-      createRuleDto.valid !== undefined ? createRuleDto.valid : true,
-      createRuleDto.isGlobal !== undefined ? createRuleDto.isGlobal : false,
-      createRuleDto.employeeId ? String(createRuleDto.employeeId) : null, // Conversión a string
-      createdById,
-      now,
+      '', // id generado por Prisma
+      props.name,
+      props.type,
+      props.description ?? null,
+      props.valid ?? true,
+      props.isGlobal ?? false,
+      props.employeeId ?? null,
+      props.createdById,
+      new Date(),
+      null,
+      null,
       null
     );
   }
