@@ -22,7 +22,7 @@ export class RuleResponseDto {
   readonly employeeId: string | null;
   readonly employee: EmployeeDto | null;
   readonly createdById: string;
-  readonly createdBy: UserDto;
+  readonly createdBy: UserDto | null;
   readonly createdAt: Date;
   readonly updatedAt: Date | null;
 }

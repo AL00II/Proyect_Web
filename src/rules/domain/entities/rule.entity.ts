@@ -1,13 +1,11 @@
-import { CreateRuleDto } from 'src/rules/application/dto/create-rule.dto';
-
-interface EmployeeData {
+export interface EmployeeData {
   id: string;
   name: string;
   last_name: string;
   matricula: string;
 }
 
-interface UserData {
+export interface UserData {
   id: string;
   name: string;
   email: string;
@@ -27,25 +25,31 @@ export class Rule {
     public readonly createdAt: Date,
     public readonly updatedAt: Date | null,
     public readonly employee: EmployeeData | null,
-    public readonly createdBy: UserData
+    public readonly createdBy: UserData | null,
   ) {}
 
-  static create(createRuleDto: CreateRuleDto, createdById: string, createdByData: UserData): Rule {
-    const now = new Date();
-    console.log('[DEBUG] createdById =>', createdById);
+  static create(props: {
+    name: string;
+    type: string;
+    description?: string;
+    valid?: boolean;
+    isGlobal?: boolean;
+    employeeId?: string;
+    createdById: string;
+  }): Rule {
     return new Rule(
-      '', // ID lo genera Prisma
-      createRuleDto.name,
-      createRuleDto.type,
-      createRuleDto.description || null,
-      createRuleDto.valid ?? true,
-      createRuleDto.isGlobal ?? false,
-      createRuleDto.employeeId || null,
-      createdById,
-      now,
+      '', // id generado por Prisma
+      props.name,
+      props.type,
+      props.description ?? null,
+      props.valid ?? true,
+      props.isGlobal ?? false,
+      props.employeeId ?? null,
+      props.createdById,
+      new Date(),
       null,
       null,
-      createdByData
+      null
     );
   }
 }
