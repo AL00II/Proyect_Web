@@ -4,5 +4,5 @@ export class CreateRuleDto {
   readonly description?: string;
   readonly valid?: boolean;
   readonly isGlobal?: boolean;
-  readonly employeeId?: string; 
+  readonly employeeId?: string;
 }
