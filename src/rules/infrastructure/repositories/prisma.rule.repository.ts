@@ -77,6 +77,13 @@ export class PrismaRuleRepository implements RuleRepository {
   return RuleMapper.toDomain(dbRule);
   }
 
+  async delete(id: string): Promise<void> {
+  await this.prisma.rule.delete({
+    where: { id },
+  });
+}
+
+
 
 
 }

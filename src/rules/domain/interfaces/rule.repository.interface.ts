@@ -7,6 +7,7 @@ export interface RuleRepository {
   findAllGlobal(): Promise<Rule[]>;
   findAllGlobal(): Promise<Rule[]>;
   update(id: string, data: Partial<Rule>, updatedById: string): Promise<Rule>;
+  delete(id: string): Promise<void>;
 
 
 }
