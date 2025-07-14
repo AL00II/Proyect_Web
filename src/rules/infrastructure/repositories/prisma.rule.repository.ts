@@ -54,7 +54,30 @@ export class PrismaRuleRepository implements RuleRepository {
   });
 
   return dbRules.map(RuleMapper.toDomain);
-}
+  } 
+
+  async update(id: string, data: Partial<Rule>, updatedById: string): Promise<Rule> {
+  const dbRule = await this.prisma.rule.update({
+    where: { id },
+    data: {
+      name: data.name,
+      type: data.type,
+      description: data.description,
+      valid: data.valid,
+      is_global: data.isGlobal,
+      employee_id: data.employeeId,
+      updatedAt: new Date(),
+    },
+    include: {
+      employee: true,
+      created_by: true,
+    },
+  });
+
+  return RuleMapper.toDomain(dbRule);
+  }
+
+
 
 }
 

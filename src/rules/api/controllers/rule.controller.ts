@@ -1,8 +1,10 @@
-import { Controller, Post, Request, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Request, Body, Get, Param, Put } from '@nestjs/common';
 import { CreateRuleDto } from '../../application/dto/create-rule.dto';
 import { CreateRuleUseCase } from '../../application/use-cases/create-rule.use-case';
 import { GetRuleByIdUseCase } from '../../application/use-cases/get-rule-by-id.use-case';
 import { GetGlobalRulesUseCase } from 'src/rules/application/use-cases/get-global-rules.use-case';
+import { UpdateRuleDto } from 'src/rules/application/dto/update-rule.dto';
+import { UpdateRuleUseCase } from 'src/rules/application/use-cases/update-rule.use-case';
 
 @Controller('rules')
 export class RuleController {
@@ -10,6 +12,7 @@ export class RuleController {
     private readonly createRuleUseCase: CreateRuleUseCase,
     private readonly getRuleByIdUseCase: GetRuleByIdUseCase,
     private readonly getGlobalRulesUseCase: GetGlobalRulesUseCase,
+    private readonly updateRuleUseCase: UpdateRuleUseCase
   ) {}
 
   @Post()
@@ -18,7 +21,7 @@ export class RuleController {
       id: req.user.id,
     });
   }
-  
+
   @Get('global')
   async getGlobalRules() {
     return this.getGlobalRulesUseCase.execute();
@@ -28,6 +31,16 @@ export class RuleController {
   async getById(@Param('id') id: string) {
     return this.getRuleByIdUseCase.execute(id);
   }
+  
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateRuleDto,
+    @Request() req
+  ) {
+    return this.updateRuleUseCase.execute(id, dto, req.user.id);
+  }
+
 
   
 }
