@@ -7,6 +7,7 @@ import { IScheduleRepository } from './domain/interfaces/schedule.repository.int
 import { PrismaService } from 'src/core/database/prisma.service';
 import { GetAllScheduleSetsUseCase } from './application/use-cases/get-all-ScheduleSet.usecase';
 import { GetByIScheduleSetdUseCase } from './application/use-cases/getby-Id-schedule-set.usecase';
+import { DeleteScheduleSetUseCase } from './application/use-cases/delete-schedule-set.usecase';
 
 @Module({
   controllers: [ScheduleController],
@@ -16,6 +17,7 @@ import { GetByIScheduleSetdUseCase } from './application/use-cases/getby-Id-sche
     UpdateScheduleSetUseCase,
     GetAllScheduleSetsUseCase,
     GetByIScheduleSetdUseCase,
+    DeleteScheduleSetUseCase,
     {
       provide: IScheduleRepository,
       useClass: ScheduleRepository,

@@ -20,4 +20,6 @@ export abstract class IScheduleRepository {
   ): Promise<ScheduleSet>;
   abstract findAll(): Promise<ScheduleSetOutput[]>;
   abstract findById(id: string): Promise<ScheduleSetOutput | null>;
+  abstract hasDetails(id: string): Promise<boolean>;
+  abstract delete(id: string): Promise<boolean>;
 }
