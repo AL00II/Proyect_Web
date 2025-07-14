@@ -38,7 +38,7 @@ export class Rule {
     createdById: string;
   }): Rule {
     return new Rule(
-      '', // id generado por Prisma
+      '', 
       props.name,
       props.type,
       props.description ?? null,
