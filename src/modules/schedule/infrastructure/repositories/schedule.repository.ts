@@ -69,4 +69,22 @@ export class ScheduleRepository implements IScheduleRepository {
       },
     });
   }
+  async hasDetails(id: string): Promise<boolean> {
+    const count = await this.prisma.scheduleDetail.count({
+      where: { schedules_set_id: id },
+    });
+    return count > 0;
+  }
+
+  async delete(id: string): Promise<boolean> {
+    try {
+      await this.prisma.scheduleSet.delete({ where: { id } });
+      return true;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        return false;
+      }
+      throw error;
+    }
+  }
 }
