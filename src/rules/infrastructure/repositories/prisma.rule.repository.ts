@@ -43,4 +43,19 @@ export class PrismaRuleRepository implements RuleRepository {
     });
     return dbRule ? RuleMapper.toDomain(dbRule) : null;
   }
+
+  async findAllGlobal(): Promise<Rule[]> {
+  const dbRules = await this.prisma.rule.findMany({
+    where: { is_global: true },
+    include: {
+      employee: true,
+      created_by: true,
+    },
+  });
+
+  return dbRules.map(RuleMapper.toDomain);
 }
+
+}
+
+

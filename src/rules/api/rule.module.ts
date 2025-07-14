@@ -4,6 +4,7 @@ import { RuleController } from './controllers/rule.controller';
 import { CreateRuleUseCase } from '../application/use-cases/create-rule.use-case';
 import { PrismaRuleRepository } from '../infrastructure/repositories/prisma.rule.repository';
 import { GetRuleByIdUseCase } from '../application/use-cases/get-rule-by-id.use-case';
+import { GetGlobalRulesUseCase } from '../application/use-cases/get-global-rules.use-case';
 
 @Module({
   controllers: [RuleController],
@@ -14,7 +15,8 @@ import { GetRuleByIdUseCase } from '../application/use-cases/get-rule-by-id.use-
       useClass: PrismaRuleRepository,
     },
     CreateRuleUseCase,
-    GetRuleByIdUseCase
+    GetRuleByIdUseCase,
+    GetGlobalRulesUseCase
   ],
 })
 export class RuleModule {}
