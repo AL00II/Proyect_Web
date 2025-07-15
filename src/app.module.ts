@@ -8,10 +8,11 @@ import { JwtAuthGuard } from './modules/auth/infrastructure/guards/jwt-auth.guar
 import { RuleModule } from './rules/api/rule.module';
 import { PrismaModule } from './core/database/prisma.module';
 import { ScheduleModule } from './modules/schedule/schedule.module';
+import { EmployeeModule } from './modules/employee/employee.module';
 
 
 @Module({
-  imports: [AuthModule, UsersModule, ScheduleModule, RuleModule],
+  imports: [AuthModule, UsersModule, ScheduleModule, RuleModule, EmployeeModule],
   controllers: [AppController],
   providers: [
     AppService,

@@ -38,7 +38,7 @@ export class UserController {
 
   @Get(':id')
   async findById(@Param('id') id: string, @Req() req: Request): Promise<UserOutput | null> {
-    return this.getUserByIdUseCase.execute(req.user.role, id);
+    return await this.getUserByIdUseCase.execute(req.user.role, id);
   }
 
 
