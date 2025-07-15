@@ -10,7 +10,7 @@ import { GetAllUsersUseCase } from './application/use-cases/get-all-users.use-ca
 import { GetUserByIdUseCase } from './application/use-cases/get-user-by-id.use-case';
 import { ChangePasswordUseCase } from './application/use-cases/change-password.use-case';
 import { PrismaService } from 'src/core/database/prisma.service';
-import { PrismaRuleRepository } from 'src/rules/infrastructure/repositories/rule.prisma.repository';
+import { PrismaRuleRepository } from 'src/rules/infrastructure/repositories/prisma.rule.repository';
 
 
 @Module({

@@ -30,8 +30,8 @@ export class ScheduleDetailMapper{
                 schedules_set_id:detailMap.schedules_set_id,
                 created_at:new Date(),
                 updated_at: new Date(),
-                created_by: detailMap.created_by, // Asegúrate de tenerlo en ScheduleDetail
-                updated_by: detailMap.updated_by || null, // opcionalmente null
+                created_by: detailMap.created_by, 
+                updated_by: detailMap.updated_by || null,
 
 
              };
