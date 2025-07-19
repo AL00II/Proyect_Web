@@ -82,10 +82,6 @@ export class PrismaRuleRepository implements RuleRepository {
     where: { id },
   });
 }
-
-
-
-
 }
 
 
