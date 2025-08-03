@@ -9,7 +9,7 @@
 */
 
 -- AlterTable
-ALTER TABLE `employee` DROP COLUMN `full_proto`,
+ALTER TABLE `Employee` DROP COLUMN `full_proto`,
     DROP COLUMN `ideal_vector`,
     ADD COLUMN `URL_photo` VARCHAR(191) NULL,
     ADD COLUMN `facial_vector` VARCHAR(191) NULL,
