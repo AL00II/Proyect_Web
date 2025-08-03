@@ -6,7 +6,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `user` DROP COLUMN `createdAt`,
+ALTER TABLE `User` DROP COLUMN `createdAt`,
     DROP COLUMN `updatedAt`,
     ADD COLUMN `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     ADD COLUMN `updated_at` DATETIME(3) NULL;
