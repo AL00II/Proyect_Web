@@ -21,7 +21,7 @@ export class EmployeeController {
     return await this.createEmployeeUseCase.execute(dto, userId);
   }
 
-  @Get('employee/:matricula')
+  @Get(':matricula')
   async getByMatricula(@Param('matricula') matricula: string): Promise<EmployeeOutput> {
     return await this.getEmployeeByMtricula.execute(matricula);
   }
