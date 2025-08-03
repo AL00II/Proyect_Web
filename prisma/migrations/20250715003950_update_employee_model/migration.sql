@@ -19,7 +19,7 @@ ALTER TABLE `Employee` DROP COLUMN `full_proto`,
 DROP TABLE `Attendance`;
 
 -- DropTable
-DROP TABLE `Attendancetype`;
+DROP TABLE `AttendanceType`;
 
 -- AddForeignKey
 ALTER TABLE `ScheduleSet` ADD CONSTRAINT `ScheduleSet_created_by_fkey` FOREIGN KEY (`created_by`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
