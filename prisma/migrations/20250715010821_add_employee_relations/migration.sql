@@ -7,7 +7,7 @@
 
 
 -- AlterTable
-ALTER TABLE `employee` DROP COLUMN `updated_by`,
+ALTER TABLE `Employee` DROP COLUMN `updated_by`,
     ADD COLUMN `updated_by_id` VARCHAR(191) NULL;
 
 
