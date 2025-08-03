@@ -7,20 +7,6 @@
   - You are about to drop the `attendancetype` table. If the table is not empty, all the data it contains will be lost.
 
 */
--- DropIndex
-DROP INDEX `Employee_created_by_id_fkey` ON `Employee`;
-
--- DropIndex
-DROP INDEX `rules_created_by_id_fkey` ON `Rules`;
-
--- DropIndex
-DROP INDEX `rules_employee_id_fkey` ON `Rules`;
-
--- DropIndex
-DROP INDEX `ScheduleDetail_schedules_set_id_fkey` ON `Scheduledetail`;
-
--- DropIndex
-DROP INDEX `ScheduleSet_created_by_fkey` ON `Scheduleset`;
 
 -- AlterTable
 ALTER TABLE `employee` DROP COLUMN `full_proto`,
