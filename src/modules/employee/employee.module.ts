@@ -6,6 +6,7 @@ import { EmployeeController } from './infrastructure/controllers/employee.contro
 import { GetEmployeeByMatriculaUseCase } from './application/use-cases/get-employee-by-matricula.use-case';
 import { CreateEmployeeUseCase } from './application/use-cases/create-employee.use-case';
 import { GetAllEmployeesUseCase } from './application/use-cases/get-all-employees.use-case';
+import { EmployeeService } from './employee.service';
 
 @Module({
     controllers: [EmployeeController],
@@ -19,6 +20,8 @@ import { GetAllEmployeesUseCase } from './application/use-cases/get-all-employee
        provide: IEmployeeRepository, 
        useClass: PrismaEmployeeRepository,
     },
+
+    EmployeeService,
   ],
   exports: [
     IEmployeeRepository,

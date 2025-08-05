@@ -1,5 +1,5 @@
 {
-  "name": "class-crafter",
+  "name": "tempo-track",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "migrate": "npx prisma migrate deploy",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

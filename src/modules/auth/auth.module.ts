@@ -7,6 +7,7 @@ import { JwtTokenService } from 'src/modules/auth/infrastructure/services/jwt-to
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from '../users/infraestructure/strategies/jwt.strategy';
+import { AuthService } from './auth.service';
 
 
 @Module({
@@ -28,6 +29,7 @@ import { JwtStrategy } from '../users/infraestructure/strategies/jwt.strategy';
     RegisterUseCase,
     JwtTokenService,
     JwtStrategy,
+    AuthService,
   ],
 })
 export class AuthModule {}
