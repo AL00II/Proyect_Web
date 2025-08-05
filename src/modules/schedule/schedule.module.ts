@@ -8,6 +8,7 @@ import { PrismaService } from 'src/core/database/prisma.service';
 import { GetAllScheduleSetsUseCase } from './application/use-cases/get-all-ScheduleSet.usecase';
 import { GetByIScheduleSetdUseCase } from './application/use-cases/getby-Id-schedule-set.usecase';
 import { DeleteScheduleSetUseCase } from './application/use-cases/delete-schedule-set.usecase';
+import { ScheduleService } from './schedule.service';
 
 @Module({
   controllers: [ScheduleController],
@@ -22,6 +23,7 @@ import { DeleteScheduleSetUseCase } from './application/use-cases/delete-schedul
       provide: IScheduleRepository,
       useClass: ScheduleRepository,
     },
+    ScheduleService,
   ],
 })
 export class ScheduleModule {}

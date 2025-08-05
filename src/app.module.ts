@@ -5,10 +5,11 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/infrastructure/guards/jwt-auth.guard';
-import { RuleModule } from './rules/api/rule.module';
+import { RuleModule } from './modules/rules/api/rule.module';
 import { PrismaModule } from './core/database/prisma.module';
 import { ScheduleModule } from './modules/schedule/schedule.module';
 import { EmployeeModule } from './modules/employee/employee.module';
+import { AuthService } from './auth/auth.service';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { EmployeeModule } from './modules/employee/employee.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    AuthService,
   ],
 })
 export class AppModule {}
