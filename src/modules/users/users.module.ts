@@ -10,6 +10,7 @@ import { UserRepository } from './infraestructure/repositories/user.repository';
 import { GetAllUsersUseCase } from './application/use-cases/get-all-users.use-case.ts';
 import { GetUserByIdUseCase } from './application/use-cases/get-user-by-id.use-case';
 import { ChangePasswordUseCase } from './application/use-cases/change-password.use-case';
+import { UsersService } from './users.service';
 
 
 @Module({
@@ -27,6 +28,7 @@ import { ChangePasswordUseCase } from './application/use-cases/change-password.u
        provide: IUserRepository, 
        useClass: UserRepository,
     },
+    UsersService,
   ],
   exports: [
     IUserRepository,
