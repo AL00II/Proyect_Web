@@ -1,4 +1,5 @@
 import { ScheduleSet } from '../entities/schedule-set.entity';
+import { ScheduleSetOutput } from '../types/scheduleSet-output.type';
 
 export abstract class IScheduleRepository {
   abstract createScheduleSet(data: {
@@ -17,4 +18,8 @@ export abstract class IScheduleRepository {
       updated_by: string;
     },
   ): Promise<ScheduleSet>;
+  abstract findAll(): Promise<ScheduleSetOutput[]>;
+  abstract findById(id: string): Promise<ScheduleSetOutput | null>;
+  abstract hasDetails(id: string): Promise<boolean>;
+  abstract delete(id: string): Promise<boolean>;
 }

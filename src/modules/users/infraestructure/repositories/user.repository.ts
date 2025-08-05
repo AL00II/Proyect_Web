@@ -29,12 +29,11 @@ export class UserRepository implements IUserRepository {
     return record ? UserMapper.toEntity(record) : null;
   }
 
-  async findAllUsers(): Promise<User[]> {//Obtiene todos los registros de user y los mappea a entidad
+  async findAllUsers(): Promise<User[]> {
     const users = await this.prisma.user.findMany();
     return users.map(UserMapper.toEntity);
   }
 
-  //se cambio el metodo anterior para que este devuelva un boolean 
   async delete(id: string): Promise<boolean> {
     try {
       await this.prisma.user.delete({ where: { id } });
@@ -51,6 +50,5 @@ export class UserRepository implements IUserRepository {
     });
 
     return UserMapper.toEntity(updatedUser);
-
   }
 }

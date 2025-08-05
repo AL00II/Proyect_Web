@@ -1,4 +1,4 @@
-import { Prisma, User as PrismaUser } from '../../../../../generated/prisma';
+import { User as PrismaUser } from '../../../../../generated/prisma';
 import { User } from '../../domain/entities/user.entity';
 
 export class UserMapper {
@@ -23,10 +23,8 @@ export class UserMapper {
       password: user.password,
       role: user.role,
       active: user.active,
-      createdAt: new Date(),   
+      createdAt: new Date(),
       updatedAt: new Date(),
     };
   }
-
-
 }

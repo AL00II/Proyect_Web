@@ -2,11 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/core/database/prisma.service';
 import { IScheduleRepository } from '../../domain/interfaces/schedule.repository.interface';
 import { ScheduleSet } from '../../domain/entities/schedule-set.entity';
+import { ScheduleSetOutput } from '../../domain/types/scheduleSet-output.type';
 
 @Injectable()
 export class ScheduleRepository implements IScheduleRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  async findAll(): Promise<ScheduleSetOutput[]> {
+    return this.prisma.scheduleSet.findMany({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        is_active: true,
+        created_at: true,
+        updated_at: true,
+      },
+    });
+  }
+  async findById(id: string): Promise<ScheduleSetOutput | null> {
+    return this.prisma.scheduleSet.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        is_active: true,
+        created_at: true,
+        updated_at: true,
+      },
+    });
+  }
   async createScheduleSet(data: {
     name: string;
     description?: string;
@@ -42,5 +68,23 @@ export class ScheduleRepository implements IScheduleRepository {
         updated_at: new Date(),
       },
     });
+  }
+  async hasDetails(id: string): Promise<boolean> {
+    const count = await this.prisma.scheduleDetail.count({
+      where: { schedules_set_id: id },
+    });
+    return count > 0;
+  }
+
+  async delete(id: string): Promise<boolean> {
+    try {
+      await this.prisma.scheduleSet.delete({ where: { id } });
+      return true;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        return false;
+      }
+      throw error;
+    }
   }
 }

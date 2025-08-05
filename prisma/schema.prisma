@@ -15,20 +15,21 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(cuid())
+  id        String    @id @default(cuid())
   name      String
   last_name String
-  email     String  @unique
+  email     String    @unique
   password  String
-  role      String  @default("supervisor")
-  active    Boolean @default(true)
-  createdAt DateTime @default(now()) @map("created_at")
+  role      String    @default("supervisor")
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
-
   schedules ScheduleSet[] // un usuario puede crear múltiples horarios
-  employees Employee[]
   rules     Rule[]
+
+  createdEmployees Employee[] @relation("CreatedEmployees")
+  updatedEmployees Employee[] @relation("UpdatedEmployees")
 }
 
 model ScheduleSet {
@@ -58,40 +59,39 @@ model ScheduleDetail {
   updated_by       String?
   schedule_set     ScheduleSet @relation(fields: [schedules_set_id], references: [id])
   schedules_set_id String
-
 }
 
 model Employee {
-  id          String   @id @default(cuid())
-  name        String
-  last_name   String
-  matricula   String   @unique
-  ideal_vector String?
-  full_proto  String?
-  active      Boolean  @default(true)
-  created_by  User     @relation(fields: [created_by_id], references: [id])
+  id            String    @id @default(cuid())
+  name          String
+  last_name     String
+  matricula     String    @unique
+  facial_vector String?
+  URL_photo     String?
+  active        Boolean   @default(true)
+  created_by    User      @relation("CreatedEmployees", fields: [created_by_id], references: [id])
   created_by_id String
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime? @updatedAt @map("updated_at")
+  updated_by    User?     @relation("UpdatedEmployees", fields: [updated_by_id], references: [id])
+  updated_by_id String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
 
-  rules       Rule[]
-  
+  rules Rule[]
 }
 
 model Rule {
-  id          String   @id @default(cuid())
-  name        String
-  type        String
-  description String?
-  valid       Boolean  @default(true)
-  is_global   Boolean  @default(false) @map("is_global")
-  employee    Employee? @relation(fields: [employee_id], references: [id])
-  employee_id String?
-  created_by  User     @relation(fields: [created_by_id], references: [id])
+  id            String    @id @default(cuid())
+  name          String
+  type          String
+  description   String?
+  valid         Boolean   @default(true)
+  is_global     Boolean   @default(false) @map("is_global")
+  employee      Employee? @relation(fields: [employee_id], references: [id])
+  employee_id   String?
+  created_by    User      @relation(fields: [created_by_id], references: [id])
   created_by_id String
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime? @updatedAt @map("updated_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
 
   @@map("rules")
 }
-
