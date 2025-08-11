@@ -1,7 +1,7 @@
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { AuthUseCase } from '../../application/use-cases/auth.use-case';
-import { RegistrationUserDto } from 'src/modules/users/application/dto/registration-user.dto';
-import { RegisterUseCase } from 'src/modules/users/application/use-cases/register.use-case';
+import { RegistrationUserDto } from '../../../../../src/modules/users/application/dto/registration-user.dto';
+import { RegisterUseCase } from '../../../../../src/modules/users/application/use-cases/register.use-case';
 import { Public } from '../../../../core/decorators/public.decorator';
 import { JwtTokenService } from '../services/jwt-token.service';
 
@@ -21,13 +21,13 @@ export class AuthController {
       const token = this.tokenService.generate({
         sub: user.id!,
         email: user.email,
-        role: user.role
+        role: user.role,
       });
-  
+
       return {
         access_token: token,
         //user,
-      }
+      };
     } catch (err) {
       throw new BadRequestException(err.message);
     }
@@ -43,11 +43,11 @@ export class AuthController {
         email: user.email,
         role: user.role,
       });
-  
+
       return {
         access_token: token,
         //user,
-      }
+      };
     } catch (err) {
       throw new BadRequestException(err.message);
     }

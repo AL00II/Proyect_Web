@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from 'src/core/database/prisma.service';
+import { PrismaService } from '../../../src/core/database/prisma.service';
 import { IEmployeeRepository } from './domain/interfaces/employee-repository.interface';
 import { PrismaEmployeeRepository } from './infrastructure/repositories/employee.repository';
 import { EmployeeController } from './infrastructure/controllers/employee.controller';
@@ -9,16 +9,16 @@ import { GetAllEmployeesUseCase } from './application/use-cases/get-all-employee
 import { EmployeeService } from './employee.service';
 
 @Module({
-    controllers: [EmployeeController],
-    providers: [
+  controllers: [EmployeeController],
+  providers: [
     PrismaService,
     CreateEmployeeUseCase,
     GetEmployeeByMatriculaUseCase,
     GetAllEmployeesUseCase,
 
     {
-       provide: IEmployeeRepository, 
-       useClass: PrismaEmployeeRepository,
+      provide: IEmployeeRepository,
+      useClass: PrismaEmployeeRepository,
     },
 
     EmployeeService,
@@ -27,6 +27,7 @@ import { EmployeeService } from './employee.service';
     IEmployeeRepository,
     CreateEmployeeUseCase,
     GetEmployeeByMatriculaUseCase,
-    GetAllEmployeesUseCase
-  ],})
+    GetAllEmployeesUseCase,
+  ],
+})
 export class EmployeeModule {}

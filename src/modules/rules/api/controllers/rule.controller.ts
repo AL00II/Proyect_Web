@@ -1,11 +1,20 @@
-import { Controller, Post, Request, Body, Get, Param, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Request,
+  Body,
+  Get,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { CreateRuleDto } from '../../application/dto/create-rule.dto';
 import { CreateRuleUseCase } from '../../application/use-cases/create-rule.use-case';
 import { GetRuleByIdUseCase } from '../../application/use-cases/get-rule-by-id.use-case';
-import { GetGlobalRulesUseCase } from 'src/modules/rules/application/use-cases/get-global-rules.use-case';
-import { UpdateRuleDto } from 'src/modules/rules/application/dto/update-rule.dto';
-import { UpdateRuleUseCase } from 'src/modules/rules/application/use-cases/update-rule.use-case';
-import { DeleteRuleUseCase } from 'src/modules/rules/application/use-cases/delete-rule.use-case';
+import { GetGlobalRulesUseCase } from '../../../../../src/modules/rules/application/use-cases/get-global-rules.use-case';
+import { UpdateRuleDto } from '../../../../../src/modules/rules/application/dto/update-rule.dto';
+import { UpdateRuleUseCase } from '../../../../../src/modules/rules/application/use-cases/update-rule.use-case';
+import { DeleteRuleUseCase } from '../../../../../src/modules/rules/application/use-cases/delete-rule.use-case';
 
 @Controller('rules')
 export class RuleController {
@@ -33,12 +42,12 @@ export class RuleController {
   async getById(@Param('id') id: string) {
     return this.getRuleByIdUseCase.execute(id);
   }
-  
+
   @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateRuleDto,
-    @Request() req
+    @Request() req,
   ) {
     return this.updateRuleUseCase.execute(id, dto, req.user.id);
   }
@@ -47,7 +56,4 @@ export class RuleController {
   async delete(@Param('id') id: string) {
     return this.deleteRuleUseCase.execute(id);
   }
-
-
-  
 }

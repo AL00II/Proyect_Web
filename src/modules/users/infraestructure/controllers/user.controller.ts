@@ -1,6 +1,15 @@
-
-import {Controller,Body,Get,Req,Delete,Param,HttpCode,HttpStatus,Patch} from '@nestjs/common';
-import { GetUserProfileUseCase } from 'src/modules/users/application/use-cases/get-user-profile.use-case';
+import {
+  Controller,
+  Body,
+  Get,
+  Req,
+  Delete,
+  Param,
+  HttpCode,
+  HttpStatus,
+  Patch,
+} from '@nestjs/common';
+import { GetUserProfileUseCase } from '../../../../../src/modules/users/application/use-cases/get-user-profile.use-case';
 import { Request } from 'express';
 import { DeleteUserUseCase } from '../../application/use-cases/delete.use-case';
 import { UpdateUserUseCase } from '../../application/use-cases/update-use-case';
@@ -11,7 +20,6 @@ import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.u
 import { ChangePasswordDto } from '../../application/dto/change-password.dto';
 import { ChangePasswordUseCase } from '../../application/use-cases/change-password.use-case';
 
-
 @Controller('users')
 export class UserController {
   constructor(
@@ -19,11 +27,10 @@ export class UserController {
     private readonly deleteUserUseCase: DeleteUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly getAllUsersUseCase: GetAllUsersUseCase,
-    private readonly getUserByIdUseCase : GetUserByIdUseCase,
-    private readonly changePasswordUseCase : ChangePasswordUseCase,
+    private readonly getUserByIdUseCase: GetUserByIdUseCase,
+    private readonly changePasswordUseCase: ChangePasswordUseCase,
   ) {}
 
-  
   @Get()
   async findAllUsers(@Req() req: Request): Promise<UserOutput[]> {
     return this.getAllUsersUseCase.execute(req.user.role);
@@ -35,34 +42,36 @@ export class UserController {
     return await this.getUserProfileUseCase.execute(userId);
   }
 
-
   @Get(':id')
-  async findById(@Param('id') id: string, @Req() req: Request): Promise<UserOutput | null> {
+  async findById(
+    @Param('id') id: string,
+    @Req() req: Request,
+  ): Promise<UserOutput | null> {
     return await this.getUserByIdUseCase.execute(req.user.role, id);
   }
 
-
-
   //e l metodo dsevuelve el boolean y se ajusta el tipo de retorno
   @Delete(':id')
-  async deleteUser(@Param('id') id: string, @Req() req: Request): Promise<{ success: boolean }> {
-  const result = await this.deleteUserUseCase.execute(id, req.user.role);
-  return { success: result };
-}
+  async deleteUser(
+    @Param('id') id: string,
+    @Req() req: Request,
+  ): Promise<{ success: boolean }> {
+    const result = await this.deleteUserUseCase.execute(id, req.user.role);
+    return { success: result };
+  }
 
   @Patch('change-password')
-  async changePassword(@Req() req:Request,@Body() dto: ChangePasswordDto ) {
+  async changePassword(@Req() req: Request, @Body() dto: ChangePasswordDto) {
     const userId = req.user.sub;
     return await this.changePasswordUseCase.execute(userId, dto);
   }
 
-
-
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() dto: UpdateUserDto, @Req() req: Request) {
-  return await this.updateUserUseCase.execute(id, dto, req.user.role);
-}
-
-
-
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateUserDto,
+    @Req() req: Request,
+  ) {
+    return await this.updateUserUseCase.execute(id, dto, req.user.role);
+  }
 }

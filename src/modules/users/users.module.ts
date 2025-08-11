@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from 'src/core/database/prisma.service';
+import { PrismaService } from '../../../src/core/database/prisma.service';
 import { RegisterUseCase } from './application/use-cases/register.use-case';
 import { GetUserProfileUseCase } from './application/use-cases/get-user-profile.use-case';
 import { UserController } from './infraestructure/controllers/user.controller';
@@ -11,7 +11,6 @@ import { GetAllUsersUseCase } from './application/use-cases/get-all-users.use-ca
 import { GetUserByIdUseCase } from './application/use-cases/get-user-by-id.use-case';
 import { ChangePasswordUseCase } from './application/use-cases/change-password.use-case';
 import { UsersService } from './users.service';
-
 
 @Module({
   controllers: [UserController],
@@ -25,8 +24,8 @@ import { UsersService } from './users.service';
     GetUserByIdUseCase,
     ChangePasswordUseCase,
     {
-       provide: IUserRepository, 
-       useClass: UserRepository,
+      provide: IUserRepository,
+      useClass: UserRepository,
     },
     UsersService,
   ],
