@@ -1,7 +1,7 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthUseCase } from '../../application/use-cases/auth.use-case';
-import { RegistrationUserDto } from 'src/modules/users/application/dto/registration-user.dto';
-import { RegisterUseCase } from 'src/modules/users/application/use-cases/register.use-case';
+import { RegistrationUserDto } from '../../../../modules/users/application/dto/registration-user.dto';
+import { RegisterUseCase } from '../../../../modules/users/application/use-cases/register.use-case';
 import { Public } from '../../../../core/decorators/public.decorator';
 import { JwtTokenService } from '../services/jwt-token.service';
 
@@ -15,6 +15,7 @@ export class AuthController {
 
   @Public()
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   async login(@Body() body: { email: string; password: string }) {
     try {
       const user = await this.authUseCase.execute(body.email, body.password);

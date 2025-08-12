@@ -1,6 +1,6 @@
 
 import {Controller,Body,Get,Req,Delete,Param,HttpCode,HttpStatus,Patch} from '@nestjs/common';
-import { GetUserProfileUseCase } from 'src/modules/users/application/use-cases/get-user-profile.use-case';
+import { GetUserProfileUseCase } from '../../application/use-cases/get-user-profile.use-case';
 import { Request } from 'express';
 import { DeleteUserUseCase } from '../../application/use-cases/delete.use-case';
 import { UpdateUserUseCase } from '../../application/use-cases/update-use-case';
