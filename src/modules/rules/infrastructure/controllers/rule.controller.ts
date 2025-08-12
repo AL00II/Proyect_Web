@@ -1,38 +1,53 @@
-import {
-  Body,
-  Controller,
-  Post,
-  UseGuards,
-  Request,
-  HttpCode,
-  HttpStatus,
-  ForbiddenException,
-} from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { CreateRuleDto } from "src/modules/rules/application/dto/create-rule.dto";
-import { RuleResponseDto } from "src/modules/rules/application/dto/rule-response.dto";
-import { CreateRuleUseCase } from "src/modules/rules/application/use-cases/create-rule.use-case";
+import { Controller, Post, Request, Body, Get, Param, Put, Delete } from '@nestjs/common';
+import { CreateRuleDto } from '../../application/dto/create-rule.dto';
+import { CreateRuleUseCase } from '../../application/use-cases/create-rule.use-case';
+import { GetRuleByIdUseCase } from '../../application/use-cases/get-rule-by-id.use-case';
+import { GetGlobalRulesUseCase } from '../../../../modules/rules/application/use-cases/get-global-rules.use-case';
+import { UpdateRuleDto } from '../../../../modules/rules/application/dto/update-rule.dto';
+import { UpdateRuleUseCase } from '../../../../modules/rules/application/use-cases/update-rule.use-case';
+import { DeleteRuleUseCase } from '../../../../modules/rules/application/use-cases/delete-rule.use-case';
 
-@Controller("rules")
+@Controller('rules')
 export class RuleController {
-  constructor(private readonly createRuleUseCase: CreateRuleUseCase) {}
+  constructor(
+    private readonly createRuleUseCase: CreateRuleUseCase,
+    private readonly getRuleByIdUseCase: GetRuleByIdUseCase,
+    private readonly getGlobalRulesUseCase: GetGlobalRulesUseCase,
+    private readonly updateRuleUseCase: UpdateRuleUseCase,
+    private readonly deleteRuleUseCase: DeleteRuleUseCase,
+  ) {}
 
   @Post()
-  @UseGuards(AuthGuard("jwt"))
-  @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body() createRuleDto: CreateRuleDto,
-    @Request() req
-  ): Promise<RuleResponseDto> {
-    // Validar que el usuario tenga rol de supervisor o admin
-    if (!['admin', 'supervisor'].includes(req.user.role)) {
-      throw new ForbiddenException(
-        'Solo supervisores y administradores pueden crear reglas'
-      );
-    }
-
-    // Convertir el ID a string para coincidir con el esquema Prisma
-    const createdById = req.user.id.toString();
-    return this.createRuleUseCase.execute(createRuleDto, createdById);
+  async create(@Body() createRuleDto: CreateRuleDto, @Request() req) {
+    return this.createRuleUseCase.execute(createRuleDto, {
+      id: req.user.id,
+    });
   }
+
+  @Get('global')
+  async getGlobalRules() {
+    return this.getGlobalRulesUseCase.execute();
+  }
+
+  @Get(':id')
+  async getById(@Param('id') id: string) {
+    return this.getRuleByIdUseCase.execute(id);
+  }
+  
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateRuleDto,
+    @Request() req
+  ) {
+    return this.updateRuleUseCase.execute(id, dto, req.user.id);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return this.deleteRuleUseCase.execute(id);
+  }
+
+
+  
 }

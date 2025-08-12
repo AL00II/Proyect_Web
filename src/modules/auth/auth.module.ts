@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './infrastructure/controllers/auth.controller';
-import { AuthUseCase } from 'src/modules/auth/application/use-cases/auth.use-case';
-import { RegisterUseCase } from 'src/modules/users/application/use-cases/register.use-case';
+import { AuthUseCase } from '../../modules/auth/application/use-cases/auth.use-case';
+import { RegisterUseCase } from '../../modules/users/application/use-cases/register.use-case';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtTokenService } from 'src/modules/auth/infrastructure/services/jwt-token.service';
+import { JwtTokenService } from '../../modules/auth/infrastructure/services/jwt-token.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from '../users/infraestructure/strategies/jwt.strategy';

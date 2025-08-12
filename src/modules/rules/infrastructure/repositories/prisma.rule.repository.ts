@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/core/database/prisma.service';
+import { PrismaService } from '../../../../core/database/prisma.service';
 import { RuleRepository } from '../../domain/interfaces/rule.repository.interface';
 import { Rule } from '../../domain/entities/rule.entity';
 import { RuleMapper } from '../mappers/rule.mapper';
