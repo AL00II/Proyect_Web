@@ -20,19 +20,21 @@ export class RuleController {
   @Post()
   @UseGuards(AuthGuard("jwt"))
   @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body() createRuleDto: CreateRuleDto,
-    @Request() req
-  ): Promise<RuleResponseDto> {
-    // Validar que el usuario tenga rol de supervisor o admin
-    if (!['admin', 'supervisor'].includes(req.user.role)) {
-      throw new ForbiddenException(
-        'Solo supervisores y administradores pueden crear reglas'
-      );
-    }
-
-    // Convertir el ID a string para coincidir con el esquema Prisma
-    const createdById = req.user.id.toString();
-    return this.createRuleUseCase.execute(createRuleDto, createdById);
+ async create(
+  @Body() createRuleDto: CreateRuleDto,
+  @Request() req
+): Promise<RuleResponseDto> {
+  
+  
+  if (!['admin', 'supervisor'].includes(req.user.role)) {
+    throw new ForbiddenException(
+      'Solo supervisores y administradores pueden crear reglas'
+    );
   }
+
+  const createdById = req.user.id.toString();
+  console.log('createdById:', createdById)
+  return this.createRuleUseCase.execute(createRuleDto, { id: createdById });
+}
+
 }

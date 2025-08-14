@@ -7,11 +7,10 @@ export class EmployeeMapper {
       prisma.name,
       prisma.last_name,
       prisma.matricula,
-      prisma.facial_vector,
-      prisma.URL_photo,
+      prisma.ideal_vector,
+      prisma.full_proto,
       prisma.active,
       prisma.created_by_id,
-      prisma.updated_by_id,
       prisma.id,
 
     );

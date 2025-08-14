@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/core/database/prisma.service';
+import { PrismaService } from '../../../../../src/core/database/prisma.service';
 import { IScheduleRepository } from '../../domain/interfaces/schedule.repository.interface';
 import { ScheduleSet } from '../../domain/entities/schedule-set.entity';
 import { ScheduleSetOutput } from '../../domain/types/scheduleSet-output.type';

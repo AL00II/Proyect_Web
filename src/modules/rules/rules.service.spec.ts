@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RulesService } from './rules.service';
 
+
 describe('RulesService', () => {
   let service: RulesService;
 
@@ -10,9 +11,12 @@ describe('RulesService', () => {
     }).compile();
 
     service = module.get<RulesService>(RulesService);
+
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  
 });

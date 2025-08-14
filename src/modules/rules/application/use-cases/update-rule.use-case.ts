@@ -9,13 +9,24 @@ export class UpdateRuleUseCase {
     private readonly ruleRepository: RuleRepository
   ) {}
 
-  async execute(id: string, dto: UpdateRuleDto, updatedById: string): Promise<string> {
-    const existingRule = await this.ruleRepository.findById(id);
-    if (!existingRule) {
-      throw new NotFoundException(`Regla con id ${id} no encontrada`);
-    }
+  // async execute(id: string, dto: UpdateRuleDto, updatedById: string): Promise<string> {
+  //   const existingRule = await this.ruleRepository.findById(id);
+  //   if (!existingRule) {
+  //     throw new NotFoundException(`Regla con id ${id} no encontrada`);
+  //   }
 
-    await this.ruleRepository.update(id, dto, updatedById);
-    return `La regla con id ${id} fue actualizada exitosamente.`;
+  //   await this.ruleRepository.update(id, dto, updatedById);
+  //   return `La regla con id ${id} fue actualizada exitosamente.`;
+  // }
+
+  async execute(id: string, dto: UpdateRuleDto, updatedById: string) {
+  const existingRule = await this.ruleRepository.findById(id);
+  if (!existingRule) {
+    throw new NotFoundException(`Regla con id ${id} no encontrada`);
   }
+
+  const updatedRule = await this.ruleRepository.update(id, dto, updatedById);
+  return updatedRule;  // Retorna el objeto actualizado
+}
+
 }

@@ -22,14 +22,15 @@ export class CreateRuleUseCase {
       throw new BadRequestException('Las reglas no globales deben estar asociadas a un empleado');
     }
 
+
     const rule = Rule.create({
-      name: createRuleDto.name,
-      type: createRuleDto.type,
-      description: createRuleDto.description,
-      valid: createRuleDto.valid,
-      isGlobal: createRuleDto.isGlobal,
-      employeeId: createRuleDto.employeeId,
-      createdById: user.id,
+      name: createRuleDto.name,         
+      type: createRuleDto.type,        
+      description: createRuleDto.description, 
+      valid: createRuleDto.valid,      
+      isGlobal: createRuleDto.isGlobal, 
+      employeeId: createRuleDto.employeeId,  
+      createdById: user.id,            
     });
 
     const createdRule = await this.ruleRepository.create(rule);

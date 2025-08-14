@@ -1,11 +1,11 @@
 import { Controller, Post, Request, Body, Get, Param, Put, Delete } from '@nestjs/common';
 import { CreateRuleDto } from '../../application/dto/create-rule.dto';
 import { CreateRuleUseCase } from '../../application/use-cases/create-rule.use-case';
+import { GetGlobalRulesUseCase } from '../../application/use-cases/get-global-rules.use-case';
 import { GetRuleByIdUseCase } from '../../application/use-cases/get-rule-by-id.use-case';
-import { GetGlobalRulesUseCase } from 'src/modules/rules/application/use-cases/get-global-rules.use-case';
-import { UpdateRuleDto } from 'src/modules/rules/application/dto/update-rule.dto';
-import { UpdateRuleUseCase } from 'src/modules/rules/application/use-cases/update-rule.use-case';
-import { DeleteRuleUseCase } from 'src/modules/rules/application/use-cases/delete-rule.use-case';
+import { UpdateRuleDto } from '../../application/dto/update-rule.dto';
+import { UpdateRuleUseCase } from '../../application/use-cases/update-rule.use-case';
+import { DeleteRuleUseCase } from '../../application/use-cases/delete-rule.use-case';
 
 @Controller('rules')
 export class RuleController {
