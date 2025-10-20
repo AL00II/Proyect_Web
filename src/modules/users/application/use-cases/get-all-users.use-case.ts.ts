@@ -23,6 +23,7 @@ export class GetAllUsersUseCase {
       email: user.email,
       active: user.active,
       role: user.role,
+      password: '',
     }));
   }
 }

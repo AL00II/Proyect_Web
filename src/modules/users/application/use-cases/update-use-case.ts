@@ -27,6 +27,7 @@ export class UpdateUserUseCase {
     email: updated.email,
     active: updated.active,
     role: updated.role,
+    password: '',
   };
 }
 

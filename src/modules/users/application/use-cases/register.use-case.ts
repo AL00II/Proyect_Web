@@ -27,6 +27,7 @@ export class RegisterUseCase {
         email: created.email,
         active: created.active,
         role: created.role,
+        password: '',
      };
     }  
   }

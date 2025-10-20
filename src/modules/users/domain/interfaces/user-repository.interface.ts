@@ -7,6 +7,6 @@ export abstract class IUserRepository {
   abstract findAllUsers(): Promise<User[]>;
   abstract update(id: string, data: Partial<User>): Promise<User>;
   //se cambios el tipo de retorno para que sea un bboolean
-  abstract delete(id: string): Promise<boolean>;
+  abstract delete(id: string): Promise<boolean> ;
 
 }

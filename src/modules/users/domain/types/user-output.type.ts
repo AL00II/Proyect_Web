@@ -5,4 +5,5 @@ export type UserOutput = {
   email: string;
   active: boolean;
   role: string;
+  password : string;
 };

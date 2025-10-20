@@ -64,6 +64,7 @@ describe('UserController', () => {
           email: 'alo@example.com',
           active: true,
           role: 'admin',
+          password: 'dd',
         },
       ];
       const mockReq = { user: { role: 'admin' } } as unknown as Request;
@@ -83,6 +84,7 @@ describe('UserController', () => {
         email: 'alo@example.com',
         active: true,
         role: 'admin',
+        password: 'dd',
       };
       const mockReq = { user: { sub: '1' } } as unknown as Request;
 
@@ -101,6 +103,7 @@ describe('UserController', () => {
         email: 'alo4.admn@example.com',
         active: true,
         role: 'admin',
+        password: 'dd',
       };
       const mockReq = { user: { role: 'admin' } } as unknown as Request;
 
@@ -140,6 +143,7 @@ describe('UserController', () => {
         email: 'alo@example.com',
         active: true,
         role: 'admin',
+        password: 'dd',
       };
       const mockReq = { user: { role: 'admin' } } as unknown as Request;
 

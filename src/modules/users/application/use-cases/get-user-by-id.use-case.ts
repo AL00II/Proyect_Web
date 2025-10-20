@@ -25,6 +25,7 @@ export class GetUserByIdUseCase {
       email: user.email,
       active: user.active,
       role: user.role,
+      password: '',
     };
   }
 }
