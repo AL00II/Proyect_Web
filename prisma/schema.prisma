@@ -52,7 +52,6 @@ model ScheduleDetail {
   check_out        DateTime
   lunch_start      DateTime?
   lunch_end        DateTime?
-  is_active        Boolean     @default(true)
   created_at       DateTime    @default(now()) @map("created_at")
   updated_at       DateTime?   @updatedAt @map("updated_at")
   created_by       String

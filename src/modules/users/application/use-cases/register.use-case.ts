@@ -17,7 +17,7 @@ export class RegisterUseCase {
      if (data.password) {
       data.password = await bcrypt.hash(data.password, 10);
      }
-     
+      
      const created = await this.userRepository.create(data);
 
       return {

@@ -4,6 +4,7 @@ import { JwtAuthGuard } from './modules/auth/infrastructure/guards/jwt-auth.guar
 import { Reflector } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
+import { DateTimezoneInterceptor } from './core/interceptors/date-timezone.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,8 @@ async function bootstrap() {
 
   // Agregar cookie-parser
   app.use(cookieParser());
+  // Interceptor global para fechas
+   app.useGlobalInterceptors(new DateTimezoneInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('API Tempo-Track')
