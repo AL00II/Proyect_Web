@@ -4,12 +4,12 @@ import { Request } from 'express';
 import { DeleteUserUseCase } from '../../application/use-cases/delete.use-case';
 import { UpdateUserUseCase } from '../../application/use-cases/update-use-case';
 import { UpdateUserDto } from '../../application/dto/update-user.dto';
-import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.use-case.ts';
 import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
 import { ChangePasswordDto } from '../../application/dto/change-password.dto';
 import { ChangePasswordUseCase } from '../../application/use-cases/change-password.use-case';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from '../../domain/entities/user.entity';
+import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.use-case';
 
 @ApiBearerAuth()
 @ApiTags('Users')
