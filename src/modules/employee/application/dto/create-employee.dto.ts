@@ -10,12 +10,13 @@ export class CreateEmployeeDto {
   @IsString()
   matricula: string;
 
-  @IsOptional()
   @IsString()
+  phone: string;
+
+  @IsOptional()
   facial_vector: string | null;
 
   @IsOptional()
-  @IsString()
   URL_photo: string | null;
 
   @IsBoolean()

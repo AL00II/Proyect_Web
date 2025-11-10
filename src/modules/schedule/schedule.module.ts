@@ -16,6 +16,7 @@ import { UpdateScheduleDetailUseCase } from './application/use-cases/update-sche
 import { DeleteScheduleDetailUseCase } from './application/use-cases/delete-schedule-detail.usecase';
 import { ScheduleDetailsController } from './infrastructure/controllers/schedule-details.controller';
 import { GetScheduleDetailsBySetIdUseCase } from './application/use-cases/get-schedule-details-by-set.usecase';
+import { GetEmployeesByScheduleSetUseCase } from './application/use-cases/get-employees-by-schedule-set.usecase';
 
 @Module({
   controllers: [ScheduleController, ScheduleDetailsController],
@@ -30,7 +31,8 @@ import { GetScheduleDetailsBySetIdUseCase } from './application/use-cases/get-sc
     UpdateScheduleDetailUseCase,
     DeleteScheduleDetailUseCase,
     GetScheduleDetailsBySetIdUseCase,
-     {
+    GetEmployeesByScheduleSetUseCase,
+    {
       provide: IScheduleRepository,
       useClass: ScheduleRepository,
     },

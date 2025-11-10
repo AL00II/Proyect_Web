@@ -22,6 +22,7 @@ export class GetEmployeeByMatriculaUseCase {
         name: employee.name,
         last_name: employee.last_name,
         matricula: employee.matricula,
+        phone: employee.phone,
         facial_vector: employee.facial_vector,
         URL_photo: employee.URL_photo,
         active: employee.active,

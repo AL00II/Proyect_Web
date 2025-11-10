@@ -1,0 +1,10 @@
+export type EmployeeUpdateInput = {
+    name?: string;
+    last_name?: string;
+    matricula?: string;
+    phone?: string;
+    facial_vector?: string | null;
+    URL_photo?: string | null;
+    active?: boolean;
+    updated_by_id: string;
+};

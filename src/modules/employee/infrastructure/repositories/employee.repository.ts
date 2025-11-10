@@ -3,23 +3,22 @@ import { PrismaService } from '../../../../core/database/prisma.service';
 import { IEmployeeRepository } from '../../domain/interfaces/employee-repository.interface';
 import { Employee } from '../../domain/entities/employee.entity';
 import { EmployeeMapper } from '../mappers/employee.mapper';
+import { EmployeeUpdateInput } from '../../domain/types/employee-update-input';
+import { CreateEmployeeInput } from '../../domain/types/create-employee-input';
 
 
 @Injectable()
 export class PrismaEmployeeRepository implements IEmployeeRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-    async create(employee: Employee): Promise<Employee> {
-      const data = EmployeeMapper.toPersistence(employee);
-
-      if (!data.created_by_id) {
-        throw new Error('El campo created_by_id es requerido');
-      }
-
+    async create(data: CreateEmployeeInput, created_by_id: string): Promise<Employee> {
       const created = await this.prisma.employee.create({
-        data,
+        data: {
+          ...data,
+          created_by_id,
+          updated_by_id: null,
+        },
       });
-
       return EmployeeMapper.toEntity(created);
     }
 
@@ -33,5 +32,43 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
     const records = await this.prisma.employee.findMany();
     return records.map(EmployeeMapper.toEntity);
     }
-  
+
+    async findByPhone(phone: string): Promise<Employee | null> {
+      const prismaEmployee = await this.prisma.employee.findFirst({
+        where: { phone },
+      });
+
+      return prismaEmployee ? EmployeeMapper.toEntity(prismaEmployee) : null;
+    }
+
+    async update(id: string, data: EmployeeUpdateInput): Promise<Employee> {
+      const updated = await this.prisma.employee.update({
+        where: { id },
+        data: {
+          ...data,
+          updated_by_id: data.updated_by_id ?? null,
+        },
+      });
+
+      return EmployeeMapper.toEntity(updated);
+    }
+
+
+
+    async delete(id: string): Promise<string> {
+      try {
+        await this.prisma.employee.delete({ where: { id } });
+        return  ''
+      } catch (err)  {
+        return (err.message)
+      }
+    }
+
+  async assignSchedule(employeeId: string, scheduleSetId: string, updatedBy: string): Promise<boolean> {
+      await this.prisma.employee.update({
+        where: { id: employeeId },
+        data: { schedule_set_id: scheduleSetId, updated_by_id: updatedBy},
+      });
+      return true;
+    }
 }

@@ -43,6 +43,7 @@ model ScheduleSet {
   updated_by  String?
   details     ScheduleDetail[]
   creator     User             @relation(fields: [created_by], references: [id])
+  employees   Employee[]
 }
 
 model ScheduleDetail {
@@ -61,19 +62,22 @@ model ScheduleDetail {
 }
 
 model Employee {
-  id            String    @id @default(cuid())
-  name          String
-  last_name     String
-  matricula     String    @unique
-  facial_vector String?
-  URL_photo     String?
-  active        Boolean   @default(true)
-  created_by    User      @relation("CreatedEmployees", fields: [created_by_id], references: [id])
-  created_by_id String
-  updated_by    User?     @relation("UpdatedEmployees", fields: [updated_by_id], references: [id])
-  updated_by_id String?
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime? @updatedAt @map("updated_at")
+  id              String       @id @default(cuid())
+  name            String
+  last_name       String
+  matricula       String       @unique
+  phone           String       @unique
+  facial_vector   String?
+  URL_photo       String?
+  active          Boolean      @default(true)
+  created_by      User         @relation("CreatedEmployees", fields: [created_by_id], references: [id])
+  created_by_id   String
+  updated_by      User?        @relation("UpdatedEmployees", fields: [updated_by_id], references: [id])
+  updated_by_id   String?
+  schedule_set_id String?
+  schedule_set    ScheduleSet? @relation(fields: [schedule_set_id], references: [id])
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime?    @updatedAt @map("updated_at")
 
   rules Rule[]
 }

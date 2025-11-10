@@ -3,6 +3,8 @@ import { PrismaService } from '../../../..//core/database/prisma.service';
 import { IScheduleRepository } from '../../domain/interfaces/schedule.repository.interface';
 import { ScheduleSet } from '../../domain/entities/schedule-set.entity';
 import { ScheduleSetOutput } from '../../domain/types/scheduleSet-output.type';
+import { EmployeeMapper } from 'src/modules/employee/infrastructure/mappers/employee.mapper';
+import { Employee } from 'generated/prisma';
 
 @Injectable()
 export class ScheduleRepository implements IScheduleRepository {
@@ -87,4 +89,14 @@ export class ScheduleRepository implements IScheduleRepository {
       throw error;
     }
   }
+
+  async findEmployees(scheduleSetId: string): Promise<Employee[]> {
+      const employees = await this.prisma.employee.findMany({
+        where: { schedule_set_id: scheduleSetId }
+      });
+     return employees.map(emp => 
+        EmployeeMapper.toEntity(emp)
+      ) as Employee[];
+    }
+
 }

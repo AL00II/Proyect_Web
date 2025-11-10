@@ -7,6 +7,11 @@ import { GetEmployeeByMatriculaUseCase } from './application/use-cases/get-emplo
 import { CreateEmployeeUseCase } from './application/use-cases/create-employee.use-case';
 import { GetAllEmployeesUseCase } from './application/use-cases/get-all-employees.use-case';
 import { EmployeeService } from './employee.service';
+import { UpdateEmployeeUseCase } from './application/use-cases/update-employee.usecase';
+import { DeleteEmployeeUseCase } from './application/use-cases/delete-employee.usecase';
+import { AssignScheduleToEmployeeUseCase } from './application/use-cases/assign-schedule.usecase';
+import { IScheduleRepository } from '../schedule/domain/interfaces/schedule.repository.interface';
+import { ScheduleRepository } from '../schedule/infrastructure/repositories/schedule.repository';
 
 @Module({
     controllers: [EmployeeController],
@@ -15,12 +20,18 @@ import { EmployeeService } from './employee.service';
     CreateEmployeeUseCase,
     GetEmployeeByMatriculaUseCase,
     GetAllEmployeesUseCase,
-
+    UpdateEmployeeUseCase,
+    DeleteEmployeeUseCase,
+    AssignScheduleToEmployeeUseCase,
     {
-       provide: IEmployeeRepository, 
-       useClass: PrismaEmployeeRepository,
+      provide: IEmployeeRepository, 
+      useClass: PrismaEmployeeRepository,
     },
-
+    {
+      provide: IScheduleRepository,
+      useClass: ScheduleRepository
+      ,
+    },
     EmployeeService,
   ],
   exports: [
