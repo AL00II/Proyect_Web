@@ -4,32 +4,34 @@ import { Employee as PrismaEmployee } from '../../../../../generated/prisma';
 export class EmployeeMapper {
   static toEntity(prisma: PrismaEmployee): Employee {
     return new Employee(
+      prisma.id!,
       prisma.name,
       prisma.last_name,
       prisma.matricula,
-      prisma.facial_vector,
+      prisma.phone,
+      prisma.facial_vector ,
       prisma.URL_photo,
       prisma.active,
       prisma.created_by_id,
-      prisma.updated_by_id,
-      prisma.id,
-
+      prisma.updated_by_id ?? null,
+      prisma.schedule_set_id ?? null,                       
+      prisma.createdAt,
+      prisma.updatedAt ?? undefined,
     );
   }
 
   static toPersistence(employee: Employee) {
     return {
-      id: employee.id ?? '',
       name: employee.name,
       last_name: employee.last_name,
       matricula: employee.matricula,
+      phone: employee.phone,
       facial_vector: employee.facial_vector,
       URL_photo: employee.URL_photo,
       active: employee.active,
       created_by_id: employee.created_by_id,
-      updated_by_id: employee.updated_by_id,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      updated_by_id: employee.updated_by_id ?? null,
+      schedule_set_id: employee.schedule_set_id ?? null,
     };
   }
 }

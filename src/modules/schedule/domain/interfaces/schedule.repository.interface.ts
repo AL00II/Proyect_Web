@@ -1,3 +1,4 @@
+import { Employee } from 'generated/prisma';
 import { ScheduleSet } from '../entities/schedule-set.entity';
 import { ScheduleSetOutput } from '../types/scheduleSet-output.type';
 
@@ -22,4 +23,6 @@ export abstract class IScheduleRepository {
   abstract findById(id: string): Promise<ScheduleSetOutput | null>;
   abstract hasDetails(id: string): Promise<boolean>;
   abstract delete(id: string): Promise<boolean>;
+  abstract findEmployees(scheduleSetId: string): Promise<Employee[]>;
+
 }

@@ -1,14 +1,4 @@
-import {
-  Body,
-  ConflictException,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Req,
-} from '@nestjs/common';
+import { Body,ConflictException,Controller,Delete,Get,Param,Patch,Post,Req,} from '@nestjs/common';
 import { Request } from 'express';
 import { CreateScheduleSetDto } from '../../application/dto/create-schedule-set.dto';
 import { CreateScheduleSetUseCase } from '../../application/use-cases/create-schedule-set.usecase';
@@ -18,6 +8,8 @@ import { ScheduleSetOutput } from '../../domain/types/scheduleSet-output.type';
 import { GetAllScheduleSetsUseCase } from '../../application/use-cases/get-all-ScheduleSet.usecase';
 import { GetByIScheduleSetdUseCase } from '../../application/use-cases/getby-Id-schedule-set.usecase';
 import { DeleteScheduleSetUseCase } from '../../application/use-cases/delete-schedule-set.usecase';
+import { EmployeeOutput } from 'src/modules/employee/domain/types/employee-output';
+import { GetEmployeesByScheduleSetUseCase } from '../../application/use-cases/get-employees-by-schedule-set.usecase';
 
 @Controller('schedule-sets')
 export class ScheduleController {
@@ -27,6 +19,7 @@ export class ScheduleController {
     private readonly getAllScheduleSetsUseCase: GetAllScheduleSetsUseCase,
     private readonly getScheduleSetByIdUseCase: GetByIScheduleSetdUseCase,
     private readonly deleteScheduleSetUseCase: DeleteScheduleSetUseCase,
+    private readonly getEmployeesByScheduleSetUseCase: GetEmployeesByScheduleSetUseCase
   ) {}
 
   @Get()
@@ -61,5 +54,11 @@ export class ScheduleController {
       throw new ConflictException(result.message);
     }
     return result;
+  }
+  @Get('employee/:scheduleSetId')
+  async getEmployeesByScheduleSet(
+    @Param('scheduleSetId') scheduleSetId: string,
+  ): Promise<EmployeeOutput[]> {
+    return await this.getEmployeesByScheduleSetUseCase.execute(scheduleSetId);
   }
 }
