@@ -24,7 +24,7 @@ phone?: string;
 
 @IsOptional()
 @IsString()
-facial_vector?: string | null;
+facial_vector?: number[] | null;
 
 
 @IsOptional()

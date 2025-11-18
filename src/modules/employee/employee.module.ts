@@ -12,17 +12,28 @@ import { DeleteEmployeeUseCase } from './application/use-cases/delete-employee.u
 import { AssignScheduleToEmployeeUseCase } from './application/use-cases/assign-schedule.usecase';
 import { IScheduleRepository } from '../schedule/domain/interfaces/schedule.repository.interface';
 import { ScheduleRepository } from '../schedule/infrastructure/repositories/schedule.repository';
+import { IAService } from './infrastructure/services/ia.service';
+import { CreateEmployeeWithIAUseCase } from './application/use-cases/create-employee-ia.usecase';
+import { EmployeeIAController } from './infrastructure/controllers/employee-ia.controller';
+import { HttpModule } from '@nestjs/axios';
+import { PhotoUploaderPort } from './application/ports/photo-uploader.port';
+import { CloudinaryService } from './infrastructure/services/cloudinary.service';
 
 @Module({
-    controllers: [EmployeeController],
+    imports: [
+    HttpModule],
+
+    controllers: [EmployeeController, EmployeeIAController],
     providers: [
     PrismaService,
+    IAService,
     CreateEmployeeUseCase,
     GetEmployeeByMatriculaUseCase,
     GetAllEmployeesUseCase,
     UpdateEmployeeUseCase,
     DeleteEmployeeUseCase,
     AssignScheduleToEmployeeUseCase,
+    CreateEmployeeWithIAUseCase,
     {
       provide: IEmployeeRepository, 
       useClass: PrismaEmployeeRepository,
@@ -31,6 +42,10 @@ import { ScheduleRepository } from '../schedule/infrastructure/repositories/sche
       provide: IScheduleRepository,
       useClass: ScheduleRepository
       ,
+    },
+    {
+      provide: PhotoUploaderPort,
+      useClass: CloudinaryService,
     },
     EmployeeService,
   ],

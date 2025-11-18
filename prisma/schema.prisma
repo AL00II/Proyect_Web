@@ -67,7 +67,7 @@ model Employee {
   last_name       String
   matricula       String       @unique
   phone           String       @unique
-  facial_vector   String?
+  facial_vector   Json?
   URL_photo       String?
   active          Boolean      @default(true)
   created_by      User         @relation("CreatedEmployees", fields: [created_by_id], references: [id])

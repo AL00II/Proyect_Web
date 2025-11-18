@@ -10,6 +10,8 @@ export abstract class IEmployeeRepository {
   abstract update(id: string, data: EmployeeUpdateInput): Promise<Employee>;
   abstract delete(id: string): Promise<string>;
   abstract assignSchedule(employeeId: string, scheduleSetId: string, updatedBy: string): Promise<boolean>;
+  abstract updateFaceData(id: string,data: { facial_vector:number[]; URL_photo: string },): Promise<Employee>;
+
 
  
 }

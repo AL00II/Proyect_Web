@@ -1,5 +1,5 @@
 
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 import { CreateEmployeeDto } from '../../application/dto/create-employee.dto';
 import { EmployeeOutput } from '../../domain/types/employee-output';
@@ -11,6 +11,8 @@ import { DeleteEmployeeUseCase } from '../../application/use-cases/delete-employ
 import { AssignScheduleToEmployeeUseCase } from '../../application/use-cases/assign-schedule.usecase';
 import { AssignScheduleDto } from '../../application/dto/assign-schedule.dto';
 import { GetAllEmployeesUseCase } from '../../application/use-cases/get-all-employees.use-case';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CreateEmployeeWithPhotoDto } from '../../application/dto/create-employee-with-photo.dto';
 
 @Controller('employees')
 export class EmployeeController {
