@@ -25,11 +25,13 @@ model User {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
-  schedules ScheduleSet[] // un usuario puede crear múltiples horarios
+  schedules ScheduleSet[]
   rules     Rule[]
 
   createdEmployees Employee[] @relation("CreatedEmployees")
   updatedEmployees Employee[] @relation("UpdatedEmployees")
+  createdAbsences  Absence[]     @relation("AbsenceCreator")
+  updatedAbsences  Absence[]     @relation("AbsenceUpdater")
 }
 
 model ScheduleSet {
@@ -59,6 +61,7 @@ model ScheduleDetail {
   updated_by       String?
   schedule_set     ScheduleSet @relation(fields: [schedules_set_id], references: [id])
   schedules_set_id String
+  absences         Absence[]
 }
 
 model Employee {
@@ -80,6 +83,7 @@ model Employee {
   updatedAt       DateTime?    @updatedAt @map("updated_at")
 
   rules Rule[]
+  absences     Absence[]
 }
 
 model Rule {
@@ -97,4 +101,26 @@ model Rule {
   updatedAt     DateTime? @updatedAt @map("updated_at")
 
   @@map("rules")
+}
+
+model Absence {
+  id                String       @id @default(cuid())
+  employee_id       String
+  schedule_detail_id String?
+  type              String
+  start_date        DateTime
+  end_date          DateTime
+  reason            String?
+  status            String       @default("pending")
+  created_by        String
+  created_at        DateTime     @default(now()) @map("created_at")
+  updated_by        String?
+  updated_at        DateTime?    @updatedAt @map("updated_at")
+
+  employee        Employee       @relation(fields: [employee_id], references: [id])
+  schedule_detail ScheduleDetail? @relation(fields: [schedule_detail_id], references: [id])
+  creator         User           @relation("AbsenceCreator", fields: [created_by], references: [id])
+  updater         User?          @relation("AbsenceUpdater", fields: [updated_by], references: [id])
+
+  @@map("absences")
 }
