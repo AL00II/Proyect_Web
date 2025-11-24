@@ -3,7 +3,7 @@ import { PrismaService } from '../../../..//core/database/prisma.service';
 import { IScheduleRepository } from '../../domain/interfaces/schedule.repository.interface';
 import { ScheduleSet } from '../../domain/entities/schedule-set.entity';
 import { ScheduleSetOutput } from '../../domain/types/scheduleSet-output.type';
-import { EmployeeMapper } from 'src/modules/employee/infrastructure/mappers/employee.mapper';
+import { EmployeeMapper } from 'src/modules/employee/infrastructure/mappers/employee-schedule.mapper';
 import { Employee } from 'generated/prisma';
 
 @Injectable()

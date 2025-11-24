@@ -2,9 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../core/database/prisma.service';
 import { IEmployeeRepository } from '../../domain/interfaces/employee-repository.interface';
 import { Employee } from '../../domain/entities/employee.entity';
-import { EmployeeMapper } from '../mappers/employee.mapper';
+import { EmployeeWithScheduleMapper } from '../mappers/employee-schedule.mapper';
 import { EmployeeUpdateInput } from '../../domain/types/employee-update-input';
 import { CreateEmployeeInput } from '../../domain/types/create-employee-input';
+import { Prisma } from '../../../../../generated/prisma';
+import { EmployeeMapper } from '../mappers/employee.mapper';
+
 
 
 @Injectable()
@@ -17,6 +20,8 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
           ...data,
           created_by_id,
           updated_by_id: null,
+          facial_vector: data.facial_vector ?? Prisma.JsonNull,
+    
         },
       });
       return EmployeeMapper.toEntity(created);
@@ -47,6 +52,7 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
         data: {
           ...data,
           updated_by_id: data.updated_by_id ?? null,
+          facial_vector: data.facial_vector ?? Prisma.JsonNull,
         },
       });
 
@@ -70,5 +76,28 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
         data: { schedule_set_id: scheduleSetId, updated_by_id: updatedBy},
       });
       return true;
-    }
+  }
+
+
+  async updateFaceData(id: string, data: { facial_vector: number[]; URL_photo: string }) {
+    const vectorAsString = data.facial_vector;
+    const updated = await this.prisma.employee.update({
+      where: { id },
+      data: {
+        facial_vector: vectorAsString,
+        URL_photo: data.URL_photo
+      }
+    });
+    return EmployeeMapper.toEntity(updated);
+
+  }
+  async findEmployeeById(id: string): Promise<Employee & { schedule_set?: any } | null> {
+    const record = await this.prisma.employee.findUnique({
+      where: { id },
+      include: { schedule_set: { include: { details: true } } },
+    });
+
+    return record ? EmployeeWithScheduleMapper.toEntity(record) : null;
+  }
+
 }

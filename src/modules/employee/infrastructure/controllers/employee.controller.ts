@@ -1,5 +1,5 @@
 
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 import { CreateEmployeeDto } from '../../application/dto/create-employee.dto';
 import { EmployeeOutput } from '../../domain/types/employee-output';
@@ -11,6 +11,8 @@ import { DeleteEmployeeUseCase } from '../../application/use-cases/delete-employ
 import { AssignScheduleToEmployeeUseCase } from '../../application/use-cases/assign-schedule.usecase';
 import { AssignScheduleDto } from '../../application/dto/assign-schedule.dto';
 import { GetAllEmployeesUseCase } from '../../application/use-cases/get-all-employees.use-case';
+import { FileInterceptor } from '@nestjs/platform-express';
+
 
 @Controller('employees')
 export class EmployeeController {
@@ -24,12 +26,14 @@ export class EmployeeController {
   ) {}
 
   @Post('create')
+  @UseInterceptors(FileInterceptor('file'))
   async create(
+    @UploadedFile() file: Express.Multer.File,
     @Body() dto: CreateEmployeeDto,
     @Req() req: Request & { user: { sub: string } }
   ): Promise<EmployeeOutput> {
     const userId = req.user.sub; 
-    return await this.createEmployeeUseCase.execute(dto, userId);
+    return this.createEmployeeUseCase.execute(dto, userId, file);
   }
 
   @Get(':matricula')

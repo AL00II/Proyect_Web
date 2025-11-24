@@ -31,7 +31,7 @@ export class ScheduleController {
   async findById(@Param('id') id: string): Promise<ScheduleSetOutput | null> {
     return this.getScheduleSetByIdUseCase.execute(id);
   }
-  @Post()
+  @Post('create')
   async create(
     @Body() data: CreateScheduleSetDto,
     @Req() req: Request & { user: { sub: string } },

@@ -5,7 +5,7 @@ export class Employee {
     public last_name: string,
     public matricula: string,
     public phone: string,
-    public facial_vector: string | null,
+    public facial_vector: number[] | null,
     public URL_photo: string | null,
     public active: boolean,
     public created_by_id: string,

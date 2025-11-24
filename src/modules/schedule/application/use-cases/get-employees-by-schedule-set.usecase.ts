@@ -16,7 +16,7 @@ export class GetEmployeesByScheduleSetUseCase {
         emp.last_name,
         emp.matricula,
         emp.phone,
-        emp.facial_vector,
+        Array.isArray(emp.facial_vector) ? emp.facial_vector as number[] : null,
         emp.URL_photo,
         emp.active,
         emp.created_by_id,
