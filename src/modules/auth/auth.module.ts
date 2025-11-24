@@ -8,6 +8,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from '../users/infraestructure/strategies/jwt.strategy';
 import { AuthService } from './auth.service';
+import { DeviceAuthGuard } from './infrastructure/guards/device-auth.guard';
+import { IDeviceRepository } from '../device/domain/interfaces/device-repository.interface';
+import { PrismaDeviceRepository } from '../device/infraestructure/repositories/prisma-device.repository';
+import { DeviceModule } from '../device/decive.module';
 
 
 @Module({
@@ -22,6 +26,7 @@ import { AuthService } from './auth.service';
         signOptions: { expiresIn: '1h' },
       }),
     }),
+    DeviceModule,
   ],
   controllers: [AuthController],
   providers: [
@@ -30,6 +35,7 @@ import { AuthService } from './auth.service';
     JwtTokenService,
     JwtStrategy,
     AuthService,
+    DeviceAuthGuard,
   ],
 })
 export class AuthModule {}

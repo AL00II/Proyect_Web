@@ -12,8 +12,14 @@ import { DeleteEmployeeUseCase } from './application/use-cases/delete-employee.u
 import { AssignScheduleToEmployeeUseCase } from './application/use-cases/assign-schedule.usecase';
 import { IScheduleRepository } from '../schedule/domain/interfaces/schedule.repository.interface';
 import { ScheduleRepository } from '../schedule/infrastructure/repositories/schedule.repository';
+import { HttpModule } from '@nestjs/axios';
+import { PhotoUploaderPort } from './application/ports/photo-uploader.port';
+import { CloudinaryService } from './infrastructure/services/cloudinary.service';
 
 @Module({
+    imports: [
+    HttpModule],
+
     controllers: [EmployeeController],
     providers: [
     PrismaService,
@@ -31,6 +37,10 @@ import { ScheduleRepository } from '../schedule/infrastructure/repositories/sche
       provide: IScheduleRepository,
       useClass: ScheduleRepository
       ,
+    },
+    {
+      provide: PhotoUploaderPort,
+      useClass: CloudinaryService,
     },
     EmployeeService,
   ],

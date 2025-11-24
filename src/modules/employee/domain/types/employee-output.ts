@@ -4,7 +4,7 @@ export type EmployeeOutput = {
   last_name: string;
   matricula: string;
   phone: string;
-  facial_vector: string | null;
+  facial_vector: number[] | null;
   URL_photo: string | null;
   active: boolean;
   created_by_id: string;
