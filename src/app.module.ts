@@ -12,10 +12,11 @@ import { EmployeeModule } from './modules/employee/employee.module';
 import { AuthService } from './modules/auth/auth.service';
 import { AttendanceModule } from './modules/attendance/attendance.module';
 import { DeviceModule } from './modules/device/decive.module';
+import { AbsenceModule } from './modules/absence/absence.module';
 
 
 @Module({
-  imports: [AuthModule, UsersModule, ScheduleModule, RuleModule, EmployeeModule, AttendanceModule, DeviceModule],
+  imports: [AuthModule, UsersModule, ScheduleModule, RuleModule, EmployeeModule, AttendanceModule, DeviceModule,  AbsenceModule,],
   controllers: [AppController],
   providers: [
     AppService,

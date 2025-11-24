@@ -18,11 +18,16 @@ model User {
   active           Boolean       @default(true)
   createdAt        DateTime      @default(now()) @map("created_at")
   updatedAt        DateTime?     @updatedAt @map("updated_at")
+  
   devices          Device[]
-  createdEmployees Employee[]    @relation("CreatedEmployees")
-  updatedEmployees Employee[]    @relation("UpdatedEmployees")
-  schedules        ScheduleSet[]
-  rules            Rule[]
+  schedules ScheduleSet[]
+  rules     Rule[]
+  
+  createdEmployees Employee[] @relation("CreatedEmployees")
+  updatedEmployees Employee[] @relation("UpdatedEmployees")
+  createdAbsences  Absence[]     @relation("AbsenceCreator")
+  updatedAbsences  Absence[]     @relation("AbsenceUpdater")
+
 }
 
 model ScheduleSet {
@@ -54,8 +59,8 @@ model ScheduleDetail {
   updated_by       String?
   schedules_set_id String
   attendances      Attendance[]
+  absences         Absence[]
   schedule_set     ScheduleSet  @relation(fields: [schedules_set_id], references: [id])
-
   @@index([schedules_set_id], map: "ScheduleDetail_schedules_set_id_fkey")
 }
 
@@ -78,10 +83,13 @@ model Employee {
   schedule_set    ScheduleSet? @relation(fields: [schedule_set_id], references: [id])
   updated_by      User?        @relation("UpdatedEmployees", fields: [updated_by_id], references: [id])
   rules           Rule[]
+  absences     Absence[]
 
   @@index([created_by_id], map: "Employee_created_by_id_fkey")
   @@index([schedule_set_id], map: "Employee_schedule_set_id_fkey")
   @@index([updated_by_id], map: "Employee_updated_by_id_fkey")
+
+
 }
 
 model Rule {
@@ -132,4 +140,26 @@ model Device {
   created_by    User     @relation(fields: [created_by_id], references: [id])
 
   @@index([created_by_id], map: "Device_created_by_id_fkey")
+  }
+  
+model Absence {
+  id                String       @id @default(cuid())
+  employee_id       String
+  schedule_detail_id String?
+  type              String
+  start_date        DateTime
+  end_date          DateTime
+  reason            String?
+  status            String       @default("pending")
+  created_by        String
+  created_at        DateTime     @default(now()) @map("created_at")
+  updated_by        String?
+  updated_at        DateTime?    @updatedAt @map("updated_at")
+
+  employee        Employee       @relation(fields: [employee_id], references: [id])
+  schedule_detail ScheduleDetail? @relation(fields: [schedule_detail_id], references: [id])
+  creator         User           @relation("AbsenceCreator", fields: [created_by], references: [id])
+  updater         User?          @relation("AbsenceUpdater", fields: [updated_by], references: [id])
+
+  @@map("absences")
 }

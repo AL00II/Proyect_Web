@@ -16,19 +16,19 @@ export class EmployeeMapper {
     }
 
     return new Employee(
-      prisma.id!,
+      prisma.id,
       prisma.name,
       prisma.last_name,
       prisma.matricula,
       prisma.phone,
-      facialVector,
+      prisma.facial_vector,
       prisma.URL_photo,
       prisma.active,
       prisma.created_by_id,
       prisma.updated_by_id ?? null,
       prisma.schedule_set_id ?? null,
       prisma.createdAt,
-      prisma.updatedAt ?? undefined,
+      prisma.updatedAt ?? null,
     );
   }
 
