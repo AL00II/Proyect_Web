@@ -10,10 +10,12 @@ import { PrismaModule } from './core/database/prisma.module';
 import { ScheduleModule } from './modules/schedule/schedule.module';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { AuthService } from './modules/auth/auth.service';
+import { AttendanceModule } from './modules/attendance/attendance.module';
+import { DeviceModule } from './modules/device/decive.module';
 
 
 @Module({
-  imports: [AuthModule, UsersModule, ScheduleModule, RuleModule, EmployeeModule],
+  imports: [AuthModule, UsersModule, ScheduleModule, RuleModule, EmployeeModule, AttendanceModule, DeviceModule],
   controllers: [AppController],
   providers: [
     AppService,

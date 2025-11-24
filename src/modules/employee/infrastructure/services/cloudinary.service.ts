@@ -15,20 +15,17 @@ export class CloudinaryService extends PhotoUploaderPort {
     });
   }
 
-    async upload(file: Buffer): Promise<string> {
-        return new Promise((resolve, reject) => {
-            cloudinary.uploader.upload_stream(
-            { folder: 'employees' },
-            (error, result) => {
-                if (error) return reject(error);
+  async upload(file: Buffer, employeeId: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_stream(
+      { folder: 'employees', public_id: employeeId, overwrite: true },
+      (error, result) => {
+        if (error) return reject(error);
+        if (!result || !result.secure_url) return reject(new Error('Cloudinary no devolvió secure_url'));
+        resolve(result.secure_url);
+      }
+    ).end(file);
+  });
+}
 
-                if (!result || !result.secure_url) {
-                return reject(new Error('Cloudinary no devolvió secure_url'));
-                }
-
-                resolve(result.secure_url);
-            }
-            ).end(file);
-        });
-    }
 }

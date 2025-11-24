@@ -12,7 +12,7 @@ import { AssignScheduleToEmployeeUseCase } from '../../application/use-cases/ass
 import { AssignScheduleDto } from '../../application/dto/assign-schedule.dto';
 import { GetAllEmployeesUseCase } from '../../application/use-cases/get-all-employees.use-case';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateEmployeeWithPhotoDto } from '../../application/dto/create-employee-with-photo.dto';
+
 
 @Controller('employees')
 export class EmployeeController {
@@ -26,12 +26,14 @@ export class EmployeeController {
   ) {}
 
   @Post('create')
+  @UseInterceptors(FileInterceptor('file'))
   async create(
+    @UploadedFile() file: Express.Multer.File,
     @Body() dto: CreateEmployeeDto,
     @Req() req: Request & { user: { sub: string } }
   ): Promise<EmployeeOutput> {
     const userId = req.user.sub; 
-    return await this.createEmployeeUseCase.execute(dto, userId);
+    return this.createEmployeeUseCase.execute(dto, userId, file);
   }
 
   @Get(':matricula')

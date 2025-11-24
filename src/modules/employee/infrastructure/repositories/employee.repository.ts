@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../core/database/prisma.service';
 import { IEmployeeRepository } from '../../domain/interfaces/employee-repository.interface';
 import { Employee } from '../../domain/entities/employee.entity';
-import { EmployeeMapper } from '../mappers/employee.mapper';
+import { EmployeeWithScheduleMapper } from '../mappers/employee-schedule.mapper';
 import { EmployeeUpdateInput } from '../../domain/types/employee-update-input';
 import { CreateEmployeeInput } from '../../domain/types/create-employee-input';
 import { Prisma } from '../../../../../generated/prisma';
+import { EmployeeMapper } from '../mappers/employee.mapper';
 
 
 
@@ -90,4 +91,13 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
     return EmployeeMapper.toEntity(updated);
 
   }
+  async findEmployeeById(id: string): Promise<Employee & { schedule_set?: any } | null> {
+    const record = await this.prisma.employee.findUnique({
+      where: { id },
+      include: { schedule_set: { include: { details: true } } },
+    });
+
+    return record ? EmployeeWithScheduleMapper.toEntity(record) : null;
+  }
+
 }

@@ -13,8 +13,8 @@ export class CreateEmployeeDto {
   @IsString()
   phone: string;
 
-  @IsOptional()
-  facial_vector: number[]| null;
+  @IsString()
+  facial_vector: string | null;
 
   @IsOptional()
   URL_photo: string | null;

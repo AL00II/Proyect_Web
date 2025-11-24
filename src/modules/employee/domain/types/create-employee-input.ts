@@ -3,7 +3,7 @@ export type CreateEmployeeInput = {
   last_name: string;
   matricula: string;
   phone: string;
-  facial_vector: number[] | null;
+  facial_vector: number[] | null | string;
   URL_photo: string | null;
   active: boolean;
 };

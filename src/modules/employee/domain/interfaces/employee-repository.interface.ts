@@ -4,6 +4,7 @@ import { EmployeeUpdateInput } from '../types/employee-update-input';
 
 export abstract class IEmployeeRepository {
   abstract create(data: CreateEmployeeInput, created_by_id: string): Promise<Employee>;
+  abstract findEmployeeById(employeeId: string): Promise<Employee & { schedule_set?: any } | null>;
   abstract findByMatricula(matricula: string): Promise<Employee | null>;
   abstract findByPhone(phone: string): Promise<Employee | null>;
   abstract findAllEmployees(): Promise <Employee []>
