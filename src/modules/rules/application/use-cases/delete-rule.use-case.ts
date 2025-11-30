@@ -1,11 +1,10 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import { RuleRepository } from '../../domain/interfaces/rule.repository.interface';
+import { IRuleRepository } from '../../domain/interfaces/rule.repository.interface';
 
 @Injectable()
 export class DeleteRuleUseCase {
   constructor(
-    @Inject('RuleRepository')
-    private readonly ruleRepository: RuleRepository,
+    private readonly ruleRepository: IRuleRepository,
   ) {}
 
   async execute(id: string): Promise<string> {

@@ -1,20 +1,27 @@
--- CreateTable
-CREATE TABLE `absences` (
-    `id` VARCHAR(191) NOT NULL,
-    `employee_id` VARCHAR(191) NOT NULL,
-    `schedule_detail_id` VARCHAR(191) NULL,
-    `type` VARCHAR(191) NOT NULL,
-    `start_date` DATETIME(3) NOT NULL,
-    `end_date` DATETIME(3) NOT NULL,
-    `reason` VARCHAR(191) NULL,
-    `status` VARCHAR(191) NOT NULL DEFAULT 'pending',
-    `created_by` VARCHAR(191) NOT NULL,
-    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_by` VARCHAR(191) NULL,
-    `updated_at` DATETIME(3) NULL,
+/*
+  Warnings:
 
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  - You are about to drop the column `createdAt` on the `attendance_rule_results` table. All the data in the column will be lost.
+
+*/
+-- DropIndex
+DROP INDEX `absences_created_by_fkey` ON `absences`;
+
+-- DropIndex
+DROP INDEX `absences_employee_id_fkey` ON `absences`;
+
+-- DropIndex
+DROP INDEX `absences_schedule_detail_id_fkey` ON `absences`;
+
+-- DropIndex
+DROP INDEX `absences_updated_by_fkey` ON `absences`;
+
+-- DropIndex
+DROP INDEX `attendance_rule_results_attendanceId_fkey` ON `attendance_rule_results`;
+
+-- AlterTable
+ALTER TABLE `attendance_rule_results` DROP COLUMN `createdAt`,
+    ADD COLUMN `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
 
 -- AddForeignKey
 ALTER TABLE `ScheduleSet` ADD CONSTRAINT `ScheduleSet_created_by_fkey` FOREIGN KEY (`created_by`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -57,3 +64,12 @@ ALTER TABLE `absences` ADD CONSTRAINT `absences_created_by_fkey` FOREIGN KEY (`c
 
 -- AddForeignKey
 ALTER TABLE `absences` ADD CONSTRAINT `absences_updated_by_fkey` FOREIGN KEY (`updated_by`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `attendance_rule_results` ADD CONSTRAINT `attendance_rule_results_employee_id_fkey` FOREIGN KEY (`employee_id`) REFERENCES `Employee`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `attendance_rule_results` ADD CONSTRAINT `attendance_rule_results_rule_id_fkey` FOREIGN KEY (`rule_id`) REFERENCES `rules`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `attendance_rule_results` ADD CONSTRAINT `attendance_rule_results_attendanceId_fkey` FOREIGN KEY (`attendanceId`) REFERENCES `Attendance`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

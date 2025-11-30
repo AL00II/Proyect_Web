@@ -38,4 +38,12 @@ export class ScheduleDetailRepository implements IScheduleDetailRepository {
       return (err.message)
     }
   }
+
+  async getById(id: string): Promise<ScheduleDetail | null> {
+    const record = await this.prisma.scheduleDetail.findUnique({
+      where: { id }
+    });
+    return record ? ScheduleDetailMapper.toEntity(record): null ;
+  }
+
 }

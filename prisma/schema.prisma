@@ -65,25 +65,26 @@ model ScheduleDetail {
 }
 
 model Employee {
-  id              String       @id @default(cuid())
+  id              String                 @id @default(cuid())
   name            String
   last_name       String
-  matricula       String       @unique
-  phone           String       @unique
+  matricula       String                 @unique
+  phone           String                 @unique
   facial_vector   Json?
   URL_photo       String?
-  active          Boolean      @default(true)
+  active          Boolean                @default(true)
   created_by_id   String
   updated_by_id   String?
   schedule_set_id String?
-  createdAt       DateTime     @default(now()) @map("created_at")
-  updatedAt       DateTime?    @updatedAt @map("updated_at")
+  createdAt       DateTime               @default(now()) @map("created_at")
+  updatedAt       DateTime?              @updatedAt @map("updated_at")
   attendances     Attendance[]
-  created_by      User         @relation("CreatedEmployees", fields: [created_by_id], references: [id])
-  schedule_set    ScheduleSet? @relation(fields: [schedule_set_id], references: [id])
-  updated_by      User?        @relation("UpdatedEmployees", fields: [updated_by_id], references: [id])
+  created_by      User                   @relation("CreatedEmployees", fields: [created_by_id], references: [id])
+  schedule_set    ScheduleSet?           @relation(fields: [schedule_set_id], references: [id])
+  updated_by      User?                  @relation("UpdatedEmployees", fields: [updated_by_id], references: [id])
   rules           Rule[]
   absences        Absence[]
+  result          AttendanceRuleResult[]
 
   @@index([created_by_id], map: "Employee_created_by_id_fkey")
   @@index([schedule_set_id], map: "Employee_schedule_set_id_fkey")
@@ -91,18 +92,21 @@ model Employee {
 }
 
 model Rule {
-  id            String    @id @default(cuid())
+  id            String                 @id @default(cuid())
   name          String
   type          String
   description   String?
-  valid         Boolean   @default(true)
-  is_global     Boolean   @default(false) @map("is_global")
+  value         Int?
+  valid         Boolean                @default(true)
+  is_global     Boolean                @default(false) @map("is_global")
   employee_id   String?
   created_by_id String
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime? @updatedAt @map("updated_at")
-  created_by    User      @relation(fields: [created_by_id], references: [id])
-  employee      Employee? @relation(fields: [employee_id], references: [id])
+  createdAt     DateTime               @default(now()) @map("created_at")
+  updatedAt     DateTime?              @updatedAt @map("updated_at")
+  created_by    User                   @relation(fields: [created_by_id], references: [id])
+  employee      Employee?              @relation(fields: [employee_id], references: [id])
+  results_in    AttendanceRuleResult[] @relation("RuleForEntry")
+  results_lunch AttendanceRuleResult[] @relation("RuleForLunch")
 
   @@index([created_by_id], map: "rules_created_by_id_fkey")
   @@index([employee_id], map: "rules_employee_id_fkey")
@@ -110,7 +114,7 @@ model Rule {
 }
 
 model Attendance {
-  id                 String         @id @default(cuid())
+  id                 String                 @id @default(cuid())
   employee_id        String
   schedule_detail_id String
   date               DateTime
@@ -119,8 +123,9 @@ model Attendance {
   check_out          DateTime?
   lunch_start        DateTime?
   lunch_end          DateTime?
-  employee           Employee       @relation(fields: [employee_id], references: [id])
-  schedule_detail    ScheduleDetail @relation(fields: [schedule_detail_id], references: [id])
+  employee           Employee               @relation(fields: [employee_id], references: [id])
+  schedule_detail    ScheduleDetail         @relation(fields: [schedule_detail_id], references: [id])
+  result             AttendanceRuleResult[]
 
   @@index([employee_id], map: "Attendance_employee_id_fkey")
   @@index([schedule_detail_id], map: "Attendance_schedule_detail_id_fkey")
@@ -160,4 +165,26 @@ model Absence {
   updater         User?           @relation("AbsenceUpdater", fields: [updated_by], references: [id])
 
   @@map("absences")
+}
+
+model AttendanceRuleResult {
+  id           String @id @default(cuid())
+  employee_id  String
+  attendanceId String @unique
+
+  rule_in_id    String?
+  rule_lunch_id String?
+
+  status_in       String?
+  minutes_late_in Int?
+
+  status_lunch       String?
+  minutes_late_lunch Int?
+
+  createdAt DateTime @default(now())
+
+  employee   Employee   @relation(fields: [employee_id], references: [id])
+  attendance Attendance @relation(fields: [attendanceId], references: [id])
+  rule_in    Rule?      @relation("RuleForEntry", fields: [rule_in_id], references: [id])
+  rule_lunch Rule?      @relation("RuleForLunch", fields: [rule_lunch_id], references: [id])
 }

@@ -1,0 +1,193 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  name String [not null]
+  last_name String [not null]
+  email String [unique, not null]
+  password String [not null]
+  role String [not null, default: 'supervisor']
+  active Boolean [not null, default: true]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  devices Device [not null]
+  schedules ScheduleSet [not null]
+  rules rules [not null]
+  createdEmployees Employee [not null]
+  updatedEmployees Employee [not null]
+  createdAbsences absences [not null]
+  updatedAbsences absences [not null]
+}
+
+Table ScheduleSet {
+  id String [pk]
+  name String [not null]
+  description String
+  is_active Boolean [not null, default: true]
+  created_by String [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime
+  updated_by String
+  employees Employee [not null]
+  details ScheduleDetail [not null]
+  creator User [not null]
+}
+
+Table ScheduleDetail {
+  id String [pk]
+  week_day Int [not null]
+  check_in DateTime [not null]
+  check_out DateTime [not null]
+  lunch_start DateTime
+  lunch_end DateTime
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime
+  created_by String [not null]
+  updated_by String
+  schedules_set_id String [not null]
+  attendances Attendance [not null]
+  absences absences [not null]
+  schedule_set ScheduleSet [not null]
+}
+
+Table Employee {
+  id String [pk]
+  name String [not null]
+  last_name String [not null]
+  matricula String [unique, not null]
+  phone String [unique, not null]
+  facial_vector Json
+  URL_photo String
+  active Boolean [not null, default: true]
+  created_by_id String [not null]
+  updated_by_id String
+  schedule_set_id String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  attendances Attendance [not null]
+  created_by User [not null]
+  schedule_set ScheduleSet
+  updated_by User
+  rules rules [not null]
+  absences absences [not null]
+  result AttendanceRuleResult [not null]
+}
+
+Table rules {
+  id String [pk]
+  name String [not null]
+  type String [not null]
+  description String
+  value Int
+  valid Boolean [not null, default: true]
+  is_global Boolean [not null, default: false]
+  employee_id String
+  created_by_id String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  created_by User [not null]
+  employee Employee
+  results_in AttendanceRuleResult [not null]
+  results_lunch AttendanceRuleResult [not null]
+}
+
+Table Attendance {
+  id String [pk]
+  employee_id String [not null]
+  schedule_detail_id String [not null]
+  date DateTime [not null]
+  week_day Int [not null]
+  check_in DateTime
+  check_out DateTime
+  lunch_start DateTime
+  lunch_end DateTime
+  employee Employee [not null]
+  schedule_detail ScheduleDetail [not null]
+  result AttendanceRuleResult [not null]
+}
+
+Table Device {
+  id String [pk]
+  name String
+  token String [unique, not null]
+  device_id String
+  is_active Boolean [not null, default: true]
+  last_seen_at DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
+  created_by_id String [not null]
+  created_by User [not null]
+}
+
+Table absences {
+  id String [pk]
+  employee_id String [not null]
+  schedule_detail_id String
+  type String [not null]
+  start_date DateTime [not null]
+  end_date DateTime [not null]
+  reason String
+  status String [not null, default: 'pending']
+  created_by String [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_by String
+  updated_at DateTime
+  employee Employee [not null]
+  schedule_detail ScheduleDetail
+  creator User [not null]
+  updater User
+}
+
+Table AttendanceRuleResult {
+  id String [pk]
+  employee_id String [not null]
+  attendanceId String [unique, not null]
+  rule_in_id String
+  rule_lunch_id String
+  status_in String
+  minutes_late_in Int
+  status_lunch String
+  minutes_late_lunch Int
+  createdAt DateTime [default: `now()`, not null]
+  employee Employee [not null]
+  attendance Attendance [not null]
+  rule_in rules
+  rule_lunch rules
+}
+
+Ref: ScheduleSet.created_by > User.id
+
+Ref: ScheduleDetail.schedules_set_id > ScheduleSet.id
+
+Ref: Employee.created_by_id > User.id
+
+Ref: Employee.schedule_set_id > ScheduleSet.id
+
+Ref: Employee.updated_by_id > User.id
+
+Ref: rules.created_by_id > User.id
+
+Ref: rules.employee_id > Employee.id
+
+Ref: Attendance.employee_id > Employee.id
+
+Ref: Attendance.schedule_detail_id > ScheduleDetail.id
+
+Ref: Device.created_by_id > User.id
+
+Ref: absences.employee_id > Employee.id
+
+Ref: absences.schedule_detail_id > ScheduleDetail.id
+
+Ref: absences.created_by > User.id
+
+Ref: absences.updated_by > User.id
+
+Ref: AttendanceRuleResult.employee_id > Employee.id
+
+Ref: AttendanceRuleResult.attendanceId > Attendance.id
+
+Ref: AttendanceRuleResult.rule_in_id > rules.id
+
+Ref: AttendanceRuleResult.rule_lunch_id > rules.id

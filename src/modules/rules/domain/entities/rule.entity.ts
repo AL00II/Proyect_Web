@@ -19,6 +19,7 @@ export class Rule {
     public readonly type: string,
     public readonly description: string | null,
     public readonly valid: boolean,
+    public readonly value: number | null,
     public readonly isGlobal: boolean,
     public readonly employeeId: string | null,
     public readonly createdById: string,
@@ -33,6 +34,7 @@ export class Rule {
     type: string;
     description?: string;
     valid?: boolean;
+    value?: number;
     isGlobal?: boolean;
     employeeId?: string;
     createdById: string;
@@ -43,6 +45,7 @@ export class Rule {
       props.type,
       props.description ?? null,
       props.valid ?? true,
+      props.value ?? null,
       props.isGlobal ?? false,
       props.employeeId ?? null,
       props.createdById,

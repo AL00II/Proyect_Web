@@ -11,22 +11,33 @@ import { EmployeeScheduleMapper } from '../mappers/employee-schedule.mapper';
 export class PrismaAttendanceRepository implements IAttendanceRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findTodayByEmployee(employeeId: string, date: Date): Promise<Attendance | null> {
+  async findTodayByEmployee(employeeId: string, date: Date) {
     const record = await this.prisma.attendance.findFirst({
       where: { employee_id: employeeId, date },
+      include: { schedule_detail: true },
     });
 
     return record ? AttendanceMapper.toEntity(record) : null;
   }
 
+
   async create(data: CreateAttendanceInput): Promise<Attendance> {
-    const created = await this.prisma.attendance.create({ data });
+    const created = await this.prisma.attendance.create({
+      data,
+      include: { schedule_detail: true }  
+    });
     return AttendanceMapper.toEntity(created);
+
   }
 
   async update(id: string, data: UpdateAttendanceInput): Promise<Attendance> {
-    const updated = await this.prisma.attendance.update({ where: { id }, data });
+    const updated = await this.prisma.attendance.update({
+      where: { id },
+      data,
+      include: { schedule_detail: true }  // <<=== IMPORTANTE
+    });
     return AttendanceMapper.toEntity(updated);
+
   }
 
   async getEmployeesWithSchedule(weekDay: number): Promise<any[]> {

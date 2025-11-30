@@ -16,6 +16,7 @@ export class GetAllEmployeesUseCase {
 
     return employees.map(employee => ({
       created_by_id: employee.created_by_id,
+      id: employee.id,
       name: employee.name,
       last_name: employee.last_name,
       matricula: employee.matricula,

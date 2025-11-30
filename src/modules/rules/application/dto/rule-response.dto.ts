@@ -18,6 +18,7 @@ export class RuleResponseDto {
   readonly type: string;
   readonly description?: string;
   readonly valid: boolean;
+  readonly value: number | null;
   readonly isGlobal: boolean;
   readonly employeeId: string | null;
   readonly employee: EmployeeDto | null;

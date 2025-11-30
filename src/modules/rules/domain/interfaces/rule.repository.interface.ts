@@ -1,13 +1,14 @@
 import { Rule } from '../entities/rule.entity';
 
-export interface RuleRepository {
-  create(rule: Rule): Promise<Rule>;
-  findByName(name: string): Promise<Rule | null>;
-  findById(id: string): Promise<Rule | null>; 
-  findAllGlobal(): Promise<Rule[]>;
-  findAllGlobal(): Promise<Rule[]>;
-  update(id: string, data: Partial<Rule>, updatedById: string): Promise<Rule>;
-  delete(id: string): Promise<void>;
+export abstract class IRuleRepository {
+  abstract create(rule: Rule): Promise<Rule>;
+  abstract findByName(name: string): Promise<Rule | null>;
+  abstract findById(id: string): Promise<Rule | null>; 
+  abstract findAllGlobal(): Promise<Rule[]>;
+  abstract findAllGlobal(): Promise<Rule[]>;
+  abstract update(id: string, data: Partial<Rule>, updatedById: string): Promise<Rule>;
+  abstract delete(id: string): Promise<void>;
+  abstract getApplicableRulesForEmployee(employeeId: string): Promise<Rule[]>;
 
 
 }
