@@ -17,10 +17,10 @@ export class RuleController {
     private readonly deleteRuleUseCase: DeleteRuleUseCase,
   ) {}
 
-  @Post()
+  @Post('create')
   async create(@Body() createRuleDto: CreateRuleDto, @Request() req) {
     return this.createRuleUseCase.execute(createRuleDto, {
-      id: req.user.id,
+      id: req.user.sub,
     });
   }
 
@@ -40,7 +40,7 @@ export class RuleController {
     @Body() dto: UpdateRuleDto,
     @Request() req
   ) {
-    return this.updateRuleUseCase.execute(id, dto, req.user.id);
+    return this.updateRuleUseCase.execute(id, dto, req.user.sub);
   }
 
   @Delete(':id')

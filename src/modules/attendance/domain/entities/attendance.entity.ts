@@ -9,5 +9,6 @@ export class Attendance {
     public readonly check_out: Date | null,
     public readonly lunch_start: Date | null,
     public readonly lunch_end: Date | null,
+    public scheduleDetail?: any
   ) {}
 }

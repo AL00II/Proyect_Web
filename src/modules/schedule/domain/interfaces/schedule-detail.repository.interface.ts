@@ -6,6 +6,8 @@ export abstract class IScheduleDetailRepository {
   abstract findByScheduleSetId(scheduleSetId: string): Promise<ScheduleDetail[]>;
   abstract updateDetail(id: string, data: Partial<ScheduleDetail>): Promise<ScheduleDetail>;
   abstract  deleteDetail(id: string): Promise<string>;
+  abstract getById(id: string): Promise<ScheduleDetail | null>;
+
 }
 
 

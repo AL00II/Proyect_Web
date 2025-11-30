@@ -7,13 +7,14 @@ import { GetRuleByIdUseCase } from '../rules/application/use-cases/get-rule-by-i
 import { GetGlobalRulesUseCase } from '../rules/application/use-cases/get-global-rules.use-case';
 import { UpdateRuleUseCase } from '../rules/application/use-cases/update-rule.use-case';
 import { DeleteRuleUseCase } from '../rules/application/use-cases/delete-rule.use-case';
+import { IRuleRepository } from './domain/interfaces/rule.repository.interface';
 
 @Module({
   controllers: [RuleController],
   providers: [
     PrismaService,
     {
-      provide: 'RuleRepository',
+      provide: IRuleRepository,
       useClass: PrismaRuleRepository,
     },
     CreateRuleUseCase,
@@ -22,5 +23,8 @@ import { DeleteRuleUseCase } from '../rules/application/use-cases/delete-rule.us
     UpdateRuleUseCase,
     DeleteRuleUseCase
   ],
+  exports: [
+    IRuleRepository
+  ]
 })
 export class RuleModule {}

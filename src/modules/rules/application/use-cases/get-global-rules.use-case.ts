@@ -1,13 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { RuleRepository } from '../../domain/interfaces/rule.repository.interface';
+import { IRuleRepository } from '../../domain/interfaces/rule.repository.interface';
 import { RuleResponseDto } from '../dto/rule-response.dto';
 import { RuleMapper } from '../../infrastructure/mappers/rule.mapper';
 
 @Injectable()
 export class GetGlobalRulesUseCase {
   constructor(
-    @Inject('RuleRepository')
-    private readonly ruleRepository: RuleRepository
+    private readonly ruleRepository: IRuleRepository
   ) {}
 
   async execute(): Promise<RuleResponseDto[]> {
