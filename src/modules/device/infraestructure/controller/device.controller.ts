@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Patch, Param, Get, Req } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Get, Req, UseGuards } from '@nestjs/common';
 import { CreateDeviceDto } from '../../application/dtos/create-device.dto';
 import { ValidateDeviceDto } from '../../application/dtos/validate-device.dto';
 import { RegisterDeviceUseCase } from '../../application/uses-case/register-device.usecase';
@@ -6,6 +6,8 @@ import { DeactivateDeviceUseCase } from '../../application/uses-case/deactivate-
 import { FindDeviceByNameUseCase } from '../../application/uses-case/find-device-by-name.usecase';
 import { FindAllDevicesUseCase } from '../../application/uses-case/find-all-devices.usecase';
 import { ValidateDeviceUseCase } from '../../application/uses-case/validate-device.usecase';
+import { Public } from 'src/core/decorators/public.decorator';
+import { DeviceAuthGuard } from 'src/modules/auth/infrastructure/guards/device-auth.guard';
 
 @Controller('devices')
 export class DeviceController {
@@ -17,8 +19,8 @@ export class DeviceController {
     private readonly validateDevice: ValidateDeviceUseCase
   ) {}
 
-    @Post()
-    async register(@Body() dto: CreateDeviceDto, @Req() req: any) {
+  @Post()
+  async register(@Body() dto: CreateDeviceDto, @Req() req: any) {
     const userId = req.user.sub; // extraído del JWT
     const result = await this.registerDevice.execute({
         ...dto,
@@ -28,23 +30,27 @@ export class DeviceController {
         device: result.device,
         token: result.token 
     };
-    }
-
+  }
+ 
   @Patch('deactivate/:id')
   async deactivate(@Param('id') id: string) {
     return this.deactivateDevice.execute(id);
   }
+
 
   @Get('search/:name')
   async searchByName(@Param('name') name: string) {
     return this.findByName.execute(name);
   }
 
+
   @Get()
   async getAll() {
     return this.findAll.execute();
   }
 
+  @Public()
+  @UseGuards(DeviceAuthGuard) 
   @Post('validate')
   async validate(@Body() dto: ValidateDeviceDto) {
     return this.validateDevice.execute(dto);

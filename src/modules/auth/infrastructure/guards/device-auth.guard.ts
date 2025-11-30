@@ -10,14 +10,8 @@ export class DeviceAuthGuard implements CanActivate {
  async canActivate(context: ExecutionContext): Promise<boolean> {
   const req = context.switchToHttp().getRequest();
 
-  console.log('Headers recibidos:', req.headers);
-
   const deviceId = req.headers['x-device-id'];
   const deviceToken = req.headers['x-device-token'];
-
-  console.log('deviceId:', deviceId);
-  console.log('deviceToken:', deviceToken);
-
   if (!deviceId || !deviceToken) {
     throw new UnauthorizedException('Device headers missing');
   }
