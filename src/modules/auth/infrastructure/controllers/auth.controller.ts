@@ -58,12 +58,7 @@ export class AuthController {
       });
 
       // Enviar cookie HttpOnly al registrar
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 1000 * 60 * 60 * 24,
-      });
+
 
       return { message: 'Usuario registrado exitosamente' };
     } catch (err) {

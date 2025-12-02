@@ -11,6 +11,8 @@ export class UserMapper {
       prismaUser.role,
       prismaUser.active,
       prismaUser.id,
+      prismaUser.createdAt,
+      prismaUser.updatedAt ?? undefined,
     );
   }
 
@@ -23,8 +25,8 @@ export class UserMapper {
       password: user.password,
       role: user.role,
       active: user.active,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: user.created_at ?? new Date(),
+      updatedAt: user.updated_at ?? new Date(),
     };
   }
 }

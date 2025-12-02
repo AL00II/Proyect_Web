@@ -22,6 +22,12 @@ export class User {
   @ApiProperty({ example: 'uuid-5678', description: 'Identificador único del usuario' })
   public readonly id?: string;
 
+  @ApiProperty({ example: '2025-01-01T00:00:00.000Z', description: 'Fecha de creación del usuario' })
+  public  created_at?: Date;
+
+  @ApiProperty({ example: '2025-01-02T00:00:00.000Z', description: 'Fecha de actualización del usuario' })
+  public readonly updated_at?: Date;
+
   constructor(
     name: string,
     last_name: string,
@@ -30,6 +36,8 @@ export class User {
     role: string,
     active: boolean,
     id?: string,
+    created_at?: Date,
+    updated_at?: Date,
   ) {
     this.name = name;
     this.last_name = last_name;
@@ -38,5 +46,7 @@ export class User {
     this.role = role;
     this.active = active;
     this.id = id;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
   }
 }
