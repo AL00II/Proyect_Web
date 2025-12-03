@@ -58,6 +58,10 @@ export class PrismaAttendanceStatsRepository implements IAttendanceStatsReposito
   }
 
   async getCompanyStats(input: AttendanceStatsInput): Promise<AttendanceStat[]> {
+    const existingEmployeeIds = await this.prisma.employee.findMany({
+      select: { id: true },
+    }).then(res => res.map(e => e.id));
+
     const results = await this.prisma.attendanceRuleResult.findMany({
       where: {
         attendance: {
@@ -66,35 +70,36 @@ export class PrismaAttendanceStatsRepository implements IAttendanceStatsReposito
             lte: input.endDate,
           },
         },
+        employee_id: { in: existingEmployeeIds }, // <-- filtramos los que existen
       },
-      include: { 
+      include: {
         attendance: true,
         employee: {
-        select: {
-          id: true,
-          name: true,
-          last_name: true,
-          URL_photo: true, 
-          }
+          select: {
+            id: true,
+            name: true,
+            last_name: true,
+            URL_photo: true,
+          },
         },
-       },
+      },
     });
 
+    // Mappear datos
     const mapped = results.map(r => ({
-      id: r.id,                 
+      id: r.id,
       attendanceId: r.attendanceId,
       employeeId: r.employee_id,
       employeeName: `${r.employee.name} ${r.employee.last_name}`,
-      employeePhoto: r.employee.URL_photo,  
+      employeePhoto: r.employee.URL_photo,
       ruleInId: r.rule_in_id,
       ruleLunchId: r.rule_lunch_id,
       statusIn: ["early", "on_time", "late", "absent"].includes(r.status_in ?? "")
-      ? (r.status_in as "early" | "on_time" | "late" | "absent")
-      : null,
-
+        ? (r.status_in as "early" | "on_time" | "late" | "absent")
+        : null,
       statusLunch: ["early", "on_time", "late", "not_returned"].includes(r.status_lunch ?? "")
-      ? (r.status_lunch as "early" | "on_time" | "late" | "not_returned")
-      : null,
+        ? (r.status_lunch as "early" | "on_time" | "late" | "not_returned")
+        : null,
       minutesLateIn: r.minutes_late_in,
       minutesLateLunch: r.minutes_late_lunch,
       createdAt: r.attendance.date,
@@ -102,6 +107,7 @@ export class PrismaAttendanceStatsRepository implements IAttendanceStatsReposito
 
     return AttendanceStatMapper.toEmployeeStats(mapped);
   }
+
 
     
 
