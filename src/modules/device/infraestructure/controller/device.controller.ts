@@ -50,7 +50,6 @@ export class DeviceController {
   }
 
   @Public()
-  @UseGuards(DeviceAuthGuard) 
   @Post('validate')
   async validate(@Body() dto: ValidateDeviceDto) {
     return this.validateDevice.execute(dto);

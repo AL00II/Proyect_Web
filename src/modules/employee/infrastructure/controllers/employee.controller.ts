@@ -47,14 +47,16 @@ export class EmployeeController {
   }
 
   @Patch(':id')
-    async update(
-      @Param('id') id: string,
-      @Body() dto: UpdateEmployeeDto,
-      @Req() req: Request & { user: { sub: string } },
-    ) {
-      const updated_by_id = req.user.sub;
-      return this.updateEmployeeUseCase.execute(id, { ...dto, updated_by_id });
-    }
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File, // recibir archivo
+    @Body() dto: UpdateEmployeeDto,
+    @Req() req: Request & { user: { sub: string } },
+  ) {
+    const updated_by_id = req.user.sub;
+    return this.updateEmployeeUseCase.execute(id, dto, updated_by_id, file);  
+  }
 
   @Delete(':id')
   async delete(@Param('id') id: string) {

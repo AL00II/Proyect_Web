@@ -35,4 +35,9 @@ URL_photo?: string | null;
 @IsOptional()
 @IsBoolean()
 active?: boolean;
+
+
+@IsOptional()
+@IsString()
+updated_by_id: string;
 }
